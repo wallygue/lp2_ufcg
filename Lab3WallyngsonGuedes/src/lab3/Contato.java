@@ -1,32 +1,55 @@
 package lab3;
 
+/**
+ * ESTA CLASSE REPRESENTA OS CONTATOS QUE DEVEM 
+ * SER CADASTRADOS NUMA AGENDA, CONTROI E É 
+ * ADICIONADO NO ARRAY;
+ * 
+ * @author Wallyngson Guedes
+ *
+ */
 public class Contato {
-	String nome;
-	String sobrenome;
-	String telefone;
+	private String nome;
+	private String sobrenome;
+	private String telefone;
 
-	
+	/**
+	 * RESPONSÁVEL POR CONSTRUIR O CONTATO A SER ADICIONADO
+	 * NA AGENDA. RECEBENDO COMO PARÂMETRO O NOME, SOBRENOME
+	 * E TELEFONE;
+	 * 
+	 * @param nome
+	 * @param sobrenome
+	 * @param telefone
+	 */
 	public Contato(String nome, String sobrenome, String telefone) {
+		
+		/*
+		 * EXCEPTIONS, RESPOSÁVEIS POR SABER SE O NOME, SOBRENOME
+		 * E TELEFONE SÃO INVÁLIDOS OU NULOS;
+		 */
 		if(nome == null)
-			throw new IllegalArgumentException("NOME VAZIO!!");
+			throw new NullPointerException("OCORREU UM ERRO (NOME NULO), DIGITE UM NOME!!");
+		
 		if(nome.trim().equals(""))
-			throw new IllegalArgumentException("DIGITE UM NOME!!");
+			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVÁLIDO), DIGITE UM NOME!!");
 		
 		if(sobrenome == null)
-			throw new IllegalArgumentException("SOBRENOME VAZIO!!");
-		if(sobrenome.trim().equals(""))
-			throw new IllegalArgumentException("DIGITE UM SOBRENOME!!");
+			throw new NullPointerException("OCORREU UM ERRO (SOBRENOME NULO), DIGITE UM SOBRENOME!!");
 		
+		if(sobrenome == null || sobrenome.trim().equals(""))
+			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVÁLIDO), DIGITE UM NOME!!");
+
 		if(telefone == null)
-			throw new IllegalArgumentException("TELEFONE VAZIO!!");
-		if(telefone.trim().equals(""))
-			throw new IllegalArgumentException("DIGITE UM TELEFONE!!");
+			throw new NullPointerException("OCORREU UM ERRO (TELEFONE NULO), DIGITE UM TELEFONE!!");
+		
+		if(telefone == null || telefone.trim().equals(""))
+			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVÁLIDO), DIGITE UM NOME!!");
 		
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.telefone = telefone;
 	}
-
 
 	public String getNome() {
 		return nome;
@@ -41,6 +64,9 @@ public class Contato {
 
 	}
 
+	/**
+	 * RETORNA A AGENDA REPRESENTAÇÃO TEXTUAL DO CONTATO;
+	 */
 	public String toString() {
 		return nome + " " + sobrenome + " - " + telefone;
 		
