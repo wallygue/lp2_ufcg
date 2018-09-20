@@ -2,7 +2,7 @@ package lab3;
 
 /**
  * ESTA CLASSE REPRESENTA OS CONTATOS QUE DEVEM 
- * SER CADASTRADOS NUMA AGENDA, CONTROI E É 
+ * SER CADASTRADOS NUMA AGENDA, CONTROI E ï¿½ 
  * ADICIONADO NO ARRAY;
  * 
  * @author Wallyngson Guedes
@@ -14,8 +14,8 @@ public class Contato {
 	private String telefone;
 
 	/**
-	 * RESPONSÁVEL POR CONSTRUIR O CONTATO A SER ADICIONADO
-	 * NA AGENDA. RECEBENDO COMO PARÂMETRO O NOME, SOBRENOME
+	 * RESPONSï¿½VEL POR CONSTRUIR O CONTATO A SER ADICIONADO
+	 * NA AGENDA. RECEBENDO COMO PARï¿½METRO O NOME, SOBRENOME
 	 * E TELEFONE;
 	 * 
 	 * @param nome
@@ -25,26 +25,26 @@ public class Contato {
 	public Contato(String nome, String sobrenome, String telefone) {
 		
 		/*
-		 * EXCEPTIONS, RESPOSÁVEIS POR SABER SE O NOME, SOBRENOME
-		 * E TELEFONE SÃO INVÁLIDOS OU NULOS;
+		 * EXCEPTIONS, RESPOSAVEIS POR SABER SE O NOME, SOBRENOME
+		 * E TELEFONE SAO INVALIDOS OU NULOS;
 		 */
 		if(nome == null)
 			throw new NullPointerException("OCORREU UM ERRO (NOME NULO), DIGITE UM NOME!!");
 		
 		if(nome.trim().equals(""))
-			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVÁLIDO), DIGITE UM NOME!!");
+			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVALIDO), DIGITE UM NOME!!");
 		
 		if(sobrenome == null)
 			throw new NullPointerException("OCORREU UM ERRO (SOBRENOME NULO), DIGITE UM SOBRENOME!!");
 		
 		if(sobrenome == null || sobrenome.trim().equals(""))
-			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVÁLIDO), DIGITE UM NOME!!");
+			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVALIDO), DIGITE UM NOME!!");
 
 		if(telefone == null)
 			throw new NullPointerException("OCORREU UM ERRO (TELEFONE NULO), DIGITE UM TELEFONE!!");
 		
 		if(telefone == null || telefone.trim().equals(""))
-			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVÁLIDO), DIGITE UM NOME!!");
+			throw new IllegalArgumentException("OCORREU UM ERRO (NOME INVALIDO), DIGITE UM NOME!!");
 		
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -65,16 +65,13 @@ public class Contato {
 	}
 
 	/**
-	 * RETORNA A AGENDA REPRESENTAÇÃO TEXTUAL DO CONTATO;
+	 * RETORNA A AGENDA REPRESENTAï¿½ï¿½O TEXTUAL DO CONTATO;
 	 */
 	public String toString() {
 		return nome + " " + sobrenome + " - " + telefone;
 		
 	}
 
-	/* 
-	 * HashCode
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -86,42 +83,19 @@ public class Contato {
 	}
 
 	/* 
-	 * Equals
+	 * METODO EQUALS QUE COMPARA SE DOIS CONTATOS SAO IGUAIS;
+	 * VERIFICA SE O NOME E O SOBRENOME FOREM IGUAL, ENTAO
+	 * OS CONTATOS TAMBEM SAO;
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Contato)) {
-			return false;
-		}
 		Contato other = (Contato) obj;
-		if (nome == null) {
-			if (other.nome != null) {
-				return false;
-			}
-		} else if (!nome.equals(other.nome)) {
+		if (this.getNome().equals(other.getNome()) 
+				&& this.getSobrenome().equals(other.getSobrenome())) {
+			return true;
+		} else
 			return false;
-		}
-		if (sobrenome == null) {
-			if (other.sobrenome != null) {
-				return false;
-			}
-		} else if (!sobrenome.equals(other.sobrenome)) {
-			return false;
-		}
-		if (telefone == null) {
-			if (other.telefone != null) {
-				return false;
-			}
-		} else if (!telefone.equals(other.telefone)) {
-			return false;
-		}
-		return true;
+		
 	}
 	
 	

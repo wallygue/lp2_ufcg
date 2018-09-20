@@ -7,90 +7,147 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import lab3.Contato;
+import lab3.Agenda;
 
 /**
- * CLASSE RESPONSÁVEL POR TESTAR TODOS O MÉTODOS DA CLASSE AGENDA;
+ * CLASSE RESPONSAVEL POR TESTAR TODOS O METODOS DA CLASSE AGENDA;
  * 
  * @author Wallyngson Guedes
  *
  */
 class AgendaTest {
 
-	private Contato contato1;
+	private Agenda agenda = new Agenda();
+	private Agenda agenda1 = new Agenda();
+	private Agenda agenda2 = new Agenda();
+	private Agenda agenda3 = new Agenda();
 
 	@BeforeEach
 	void setUp() throws Exception {
-		contato1 = new Contato("Rha", "Estrela", "(83) 98888.8888");
+		agenda1.cadastraContato(1, "Wall", "Guedes", "(83) 98888.8888");
+		agenda3.cadastraContato(1, "Wall", "Guedes", "(83) 98888.8888");
+		agenda2.cadastraContato(1, "Rha", "Estrela", "(83) 98888.8888");
+		agenda2.cadastraContato(2, "Bk", "Guedes", "(83) 98888.8888");
+		agenda2.cadastraContato(3, "Bielly", "Ferreira", "(83) 98888.8888");
 	}
 
+	/**
+	 *  TESTE CADASTRAR CONTATOS
+	 */
+
 	@Test
-	@DisplayName("Teste do método cadastraContato()")
-	// DEVE DAR CORRETO, POIS O CONTATO FOI CADASTRADO CORRETAMENTE;
+	@DisplayName("Teste do metodo cadastraContato()")
+	// DEVE DAR ERRADO, POIS A POSICAO MAIOR QUE O TAMANHO DO ARRAY;
 	void testCadastraContato() {
-		assertEquals("Rha", contato1.getNome());
-		assertEquals("Estrela", contato1.getSobrenome());
-		assertEquals("(83) 98888.8888", contato1.getTelefone());
-
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			agenda1.cadastraContato(1200, "Wall", "Guedes", "8888.8888");
+		});
 	}
 
 	@Test
-	@DisplayName("Teste de Contrucao do Contato com o sobrenome nulo")
-	// DEVE RETORNAR UMA EXCEPTION;
-	void testCadastrarContato1() {
+	@DisplayName("Teste Cadastrar contato em uma posicao ja existente")
+	// ESTE TESTE DEVE OCORRER TUDO BEM, POIS PODE CADASTRAR CONTATOS
+	// SOB OUTRO SEM ERROS;
+	void testCadastraContato1() {
+		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", 
+				agenda.cadastraContato(1, "Novo", "Contato", "986846.7515"));
+	}
+	
+	@Test
+	@DisplayName("Teste do metodo cadastraContato()")
+	// DEVE CADASTRAR CORRETAMENTE, POSICAO 1 TESTADA;
+	void testCadastraContato2() {
+		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", 
+				agenda.cadastraContato(1, "Wall", "Guedes", "(83) 98888.8888"));
+	}
+	
+	@Test
+	@DisplayName("Teste do metodo cadastraContato()")
+	// DEVE CADASTRAR CORRETAMENTE, POSICAO 100 TESTADA;
+	void testCadastraContato3() {
+		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", 
+				agenda.cadastraContato(100, "Rha", "Estrela", "(83) 98888.8888"));
+	}
+
+	/**
+	 *  TESTE LISTAR CONTATOS
+	 */
+
+	@Test
+	@DisplayName("Teste do metodo listarContato()")
+	// DEVE DAR UM ERRO, POIS NAO EXISTE NENHUM CONTATO CADASTRADO NA AGENDA PARA
+	// LISTAR;
+	void testListarContatos() {
 		assertThrows(NullPointerException.class, () -> {
-			new Contato(null, "Guedes", "98888.8888");
+			agenda.listarContatos();
 		});
 	}
 
 	@Test
-	@DisplayName("Teste de Contrucao do Contato com o sobrenome vazio")
-	// DEVE RETORNAR UMA EXCEPTION;
-	void testCadastrarContato2() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Contato(" ", "Guedes", "98888.8888");
-		});
+	@DisplayName("Teste do metodo listarContatos()")
+	// TESTE CORRETO, IMPRESSAO DE UMA STRING LINHA A LINHA, COM UMA REPRESENTACAO
+	// TEXTUAL DOS CONTATOS;
+	void testListarContatos1() {
+		assertEquals("1 - Wall Guedes", agenda1.listarContatos());
+	}
+	
+	@Test
+	@DisplayName("Teste do metodo listarContatos()")
+	// TESTE CORRETO, IMPRESSAO DE UMA STRING LINHA A LINHA, COM UMA REPRESENTACAO
+	// TEXTUAL DOS CONTATOS;
+	void testListarContatos2() {
+		assertEquals("1 - Rha Estrela\n"
+				+ "2 - Bk Guedes\n"
+				+ "3 - Bielly Ferreira", agenda2.listarContatos());
 	}
 
-	@Test
-	@DisplayName("Teste de Contrucao do Contato com o sobrenome nulo")
-	// DEVE RETORNAR UMA EXCEPTION;
-	void testCadastrarContato3() {
-		assertThrows(NullPointerException.class, () -> {
-			new Contato("Wall", null, "98888.8888");
-		});
-	}
+	/**
+	 *  TESTE EXIBIR CONTATOS
+	 */
 
 	@Test
-	@DisplayName("Teste de Contrucao do Contato com o sobrenome vazio")
-	// DEVE RETORNAR UMA EXCEPTION;
-	void testCadastrarContato4() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Contato("Wall", " ", "98888.8888");
-		});
-	}
-
-	@Test
-	@DisplayName("Teste de Contrucao do Contato com o telefone nulo")
-	// DEVE RETORNAR UMA EXCEPTION;
-	void testCadastrarContato5() {
-		assertThrows(NullPointerException.class, () -> {
-			new Contato("Wall", "Guedes", null);
-		});
-	}
-
-	@Test
-	@DisplayName("Teste de Contrucao do Contato com o telefone vazio")
-	// DEVE RETORNAR UMA EXCEPTION;
-	void testCadastrarContato6() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Contato("Wall", "Guedes", " ");
-		});
-	}
-
-	@Test
-	// DEVE DAR CORRETO, POIS O CONTATO A SER EXIBIDO FOI CADASTRADO CORRETAMENTE
+	@DisplayName("Teste metodo exibirContato()")
+	// DEVE DAR ERRO, POIS NA POSICAO INFORMADA NAO EXISTE CONTATO CADASTRADO;
 	void testExibirContato() {
-		assertEquals("Rha Estrela - (83) 98888.8888", contato1.toString());
+		assertThrows(NullPointerException.class, () -> {
+			agenda1.exibirContato(2);
+		});
+	}
+
+	@Test
+	@DisplayName("Teste metodo exibirContato()")
+	// DEVE DAR ERRO, POIS A POSICAO INFORMADA EH MAIOR QUE O TAMANHO DA AGENDA;
+	void testExibirContato1() {
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			agenda1.exibirContato(200);
+		});
+	}
+
+	@Test
+	@DisplayName("Teste do metodo exibirContato()")
+	// ESTE TESTE ESTAH CORRETO, IMPRIMIR UMA REPRESENTACAO TEXTUAL DO CONTATO
+	// CADASTRADO;
+	void testExibirContato2() {
+		assertEquals("Wall Guedes - (83) 98888.8888", agenda1.exibirContato(1));
+	}
+	
+	/**
+	 * TESTE EQUALS
+	 */
+	
+	@Test
+	@DisplayName("Teste do metodo equals(), CORRETO")
+	// DEVE RETORNAR TRUE PORQUE AS DUAS AGENDAS
+	// TEM TODOS OS CONTATOS IUAIS NAS MESMAS POSICOES;
+	void testEquals() {
+		assertEquals(true, this.agenda1.equals(this.agenda3));
+	}
+	
+	@Test
+	@DisplayName("Teste do metodo equals(), FALSO")
+	// DEVE RETORNAR FALSE PORQUE AS DUAS AGENDAS
+	// NAO TEM TODOS OS CONTATOS IGUAIS NAS MESMAS POSICOES;
+	void testEquals2() {
+		assertEquals(false, this.agenda1.equals(this.agenda2));
 	}
 }

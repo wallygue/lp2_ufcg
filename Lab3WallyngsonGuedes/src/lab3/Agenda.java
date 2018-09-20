@@ -3,7 +3,7 @@ package lab3;
 import java.util.Arrays;
 
 /**
- * ESTA CLASSE É UMA REPRESENTAÇÃO DE UMA AGENDA, ONDE É
+ * ESTA CLASSE EH UMA REPRESENTACAO DE UMA AGENDA, ONDE ï¿½
  * POSSIVEL ADICIONAR CONTATOS, LISTAR CONTATOS E EXIBIR
  * OS CONTATOS CADASTRADOS NESTA AGENDA;
  * 
@@ -14,7 +14,7 @@ public class Agenda {
 	
 	/**
 	 * ARRAY DE CONTATOS QUE VAI ARMAZENAR TODOS OS CONTATOS,
-	 * ESSE ARRAY POSSUI 100 POSIÇÕES;
+	 * ESSE ARRAY POSSUI 100 POSICOES;
 	 */
 	private Contato[] contatos = new Contato[100];
 
@@ -22,9 +22,9 @@ public class Agenda {
 	}
 
 	/**
-	 * MÉTODO RESPONSÁVEL POR CADASTRAR OS CONTATOS NO ARRAY
-	 * DE CONTATOS. RECEBE OS PARAMÊTROS DA CLASSE MENU, A 
-	 * POSIÇÃO ONDE DEVE SER CADASTRADO, O NOME, SOBRENOME E 
+	 * METODO RESPONSAVEL POR CADASTRAR OS CONTATOS NO ARRAY
+	 * DE CONTATOS. RECEBE OS PARAMï¿½TROS DA CLASSE MENU, A 
+	 * POSICAO ONDE DEVE SER CADASTRADO, O NOME, SOBRENOME E 
 	 * TELEFONE;
 	 * 
 	 * @param posicao
@@ -35,20 +35,20 @@ public class Agenda {
 	 */
 	public String cadastraContato(int posicao, String nome, String sobrenome, String telefone) {
 		if (posicao > this.contatos.length || posicao < 1)
-			throw new IndexOutOfBoundsException("POSIÇÃO INVÁLIDA!!");
+			throw new IndexOutOfBoundsException("POSICAO INVALIDA!!");
 		
 		if (nome != null && sobrenome != null && telefone != null) {
 					Contato contato = new Contato(nome, sobrenome, telefone);
 					contatos[posicao - 1] = contato;
 					return "CADASTRO REALIZADO COM SUCESSO!!";
 					
-		} return "CADASTRO NÃO REALIZADO!!";
+		} return "CADASTRO NAO REALIZADO!!";
 
 	}
 
 	/**
-	 * ESTE MÉTODO EXIBE O CONTATO CADASTRADO EM
-	 * UMA DETERMINADA POSIÇÃO INFORMADA PELO USUÁRIO;
+	 * ESTE METODO EXIBE O CONTATO CADASTRADO EM
+	 * UMA DETERMINADA POSICAO INFORMADA PELO USUARIO;
 	 * 
 	 * @param posicao
 	 * @return
@@ -56,18 +56,18 @@ public class Agenda {
 	public String exibirContato(int posicao) {
 		// EXCEPTIONS
 		if (this.contatos[posicao - 1] == null) 
-			throw new NullPointerException("NÃO EXISTE CONTATO NESTA POSIÇÃO!!");
+			throw new NullPointerException("NAO EXISTE CONTATO NESTA POSICAO!!");
 		if (posicao > this.contatos.length || posicao < 1)
-			throw new IndexOutOfBoundsException("POSIÇÃO SOLICITADA É INVÁLIDA!!");
+			throw new IndexOutOfBoundsException("POSICAO SOLICITADA EH INVALIDA!!");
 		
 		return contatos[posicao - 1].toString();
 		
 	}
 	
 	/**
-	 * MÉTODO QUE LISTA TODOS OS CONTATOS CADASTRADOS 
+	 * METODO QUE LISTA TODOS OS CONTATOS CADASTRADOS 
 	 * LINHA A LINHA, E RETORNA A CLASSE MENU UMA STRING
-	 * COM ESSAS INFORMAÇÕES;
+	 * COM ESSAS INFORMACOES;
 	 * 
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public class Agenda {
 		
 		// EXCEPTION
 		if (contatosListados.trim().equals(""))
-			throw new NullPointerException("NÃO EXISTEM CONTATOS CADASTRADOS!!");
+			throw new NullPointerException("NAO EXISTEM CONTATOS CADASTRADOS!!");
 		
 		contatosListados = contatosListados.substring(0, contatosListados.length() - 1);
 		return contatosListados;
@@ -98,21 +98,21 @@ public class Agenda {
 		return result;
 	}
 	
+	/* 
+	 * METODO EQUALS QUE COMPARA SE DUAS AGENDAS SAO IGUAIS;
+	 * VERIFICA SE O NOME E O SOBRENOME DE CADA CONTATO CONTIDO NA AGENDA
+	 * SÃO IGUAIS, SE TODAS AS POSICOES FOREM IGUAIS, ENTAO AS AGENDAS
+	 * TAMBEM SAO;
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Agenda)) {
-			return false;
-		}
-		Agenda other = (Agenda) obj;
-		if (!Arrays.equals(contatos, other.contatos)) {
-			return false;
-		}
-		return true;
+		Agenda novaAgenda = (Agenda) obj;
+		for (int i = 0; i < contatos.length; i++) {
+			if (this.contatos[i] == null)
+				continue;
+			if (!this.contatos[i].equals(novaAgenda.contatos[i])) {
+				return false;
+			} 
+		} return true;
 	}
 }
