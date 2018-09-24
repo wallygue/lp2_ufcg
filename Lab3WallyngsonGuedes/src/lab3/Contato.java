@@ -165,4 +165,5 @@ public class Contato {
 
 		this.nivelAmizade = nivelAmizade;
 	}
+	
 }

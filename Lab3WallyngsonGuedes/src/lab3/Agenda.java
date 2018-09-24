@@ -134,6 +134,18 @@ public class Agenda {
 	}
 
 	/**
+	 * ESTE METODO CONFERE SE O CONTATO PASSADO COMO POSICAO EXISTE 
+	 * OU NAO EXISTE;
+	 * 
+	 * @param posicao
+	 * @return TRUE SE EXISTE OU FALSE SE NAO
+	 */
+	
+	private boolean validaContato(int posicao) {
+		return contatos[posicao - 1] != null;
+	}
+
+	/**
 	 * ESTE METODO RECEBE UM NIVEL DE AMIZADE PARA PESQUISAR TODOS OS CONTATOS QUE
 	 * POSSUEM O MESMO NIVEL DE AMIZADE E RETORNA UMA STRING COM OS CONTATOS COM
 	 * ESTE INDICADOR;
@@ -142,17 +154,21 @@ public class Agenda {
 	 * @return
 	 */
 
-	private boolean validaContato(int posicao) {
-		return contatos[posicao - 1] != null;
-	}
-
 	public String contatosPorAmizade(int nivelAmizadePesquisar) {
 		String contatosPorNiveisAmizade = "";
 
 		for (int i = 0; i < contatos.length; i++) {
+			
+			if (contatos[i] == null)
+				continue;
 			if (contatos[i].getNivelAmizade() == nivelAmizadePesquisar)
-				contatosPorNiveisAmizade = contatos[i].toString() + "\n";
+				contatosPorNiveisAmizade += contatos[i].toString() + "\n";
 		}
+		
+		if (contatosPorNiveisAmizade.trim().equals(""))
+			return "Nao existem contatos com este nivel de amizade!\n"
+					+ "Informe outro nivel de amizade ou cadastre este nivel de amizade em um contato.";
+		
 		return contatosPorNiveisAmizade.substring(0, contatosPorNiveisAmizade.length() - 1);
 
 	}
@@ -168,36 +184,17 @@ public class Agenda {
 		String contatosPorNome = "";
 
 		for (int i = 0; i < contatos.length; i++) {
-			if (contatos[i].getNome().equals(nome))
-				contatosPorNome = contatos[i].toString() + "\n";
-		}
-		return contatosPorNome.substring(0, contatosPorNome.length() - 1);
-
-	}
-
-	/**
-	 * ESTE METODO PESQUISA CONTATOS IGUAIS E RETORNA O PRIMEIRO QUE CONTATO QUE
-	 * ENCONTRAR IGUAL;
-	 * 
-	 * @param contatoComparar
-	 * @return
-	 */
-	public Contato pesquisaContatosIguais(Contato contatoComparar) {
-		Contato a = null;
-
-		for (int i = 0; i < contatos.length; i++) {
 			if (contatos[i] == null)
 				continue;
-			if (contatos[i].equals(contatoComparar)) {
-				a = contatos[i];
-				break;
-			}
+			if (contatos[i].getNome().equals(nome))
+				contatosPorNome += contatos[i].toString() + "\n";
 		}
+		
+		if (contatosPorNome.trim().equals(""))
+			return "Nao existe nenhum contato cadastrado com este nome!";
+		
+		return contatosPorNome.substring(0, contatosPorNome.length() - 1);
 
-		if (a == null)
-			throw new NullPointerException("Nao existe contato igual ao informado!\n" + "Informe um novo contato.");
-
-		return a;
 	}
 
 	/**
@@ -217,10 +214,11 @@ public class Agenda {
 			if (contatos[i].getNivelAmizade() == nivelAmizade)
 				qtdNiveis += 1;
 		}
-
+		
 		return qtdNiveis;
 	}
 
+	
 	/**
 	 * ESTE METODO PERCORRE TODOS CONTATOS DA AGENDA e ADICIONA EM UMA VAR
 	 * somaNiveis TODOS OS NIVEIS DOS CONTATOS DA AGENDA, E TAMBÉM ADICIONA EM UMA
@@ -228,9 +226,9 @@ public class Agenda {
 	 * 
 	 * @return
 	 */
-	public int mediaAmizade() {
-		int somaNiveis = 0;
-		int qtdNiveis = 0;
+	public double mediaAmizade() {
+		double somaNiveis = 0;
+		double qtdNiveis = 0;
 
 		for (int i = 0; i < contatos.length; i++) {
 			if (contatos[i] != null) {
@@ -239,8 +237,12 @@ public class Agenda {
 					qtdNiveis += 1;
 			}
 		}
-
-		int media = (somaNiveis / qtdNiveis);
+		
+		if (qtdNiveis == 0)
+			throw new ArithmeticException("Nao eh possivel calcular a media do nivel de amizade desta agenda!\n"
+					+ "Nao existem Niveis de Amizade cadastrados.");
+		
+		double media = (somaNiveis / qtdNiveis);
 		return media;
 	}
 }
