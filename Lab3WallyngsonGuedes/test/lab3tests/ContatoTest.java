@@ -15,7 +15,7 @@ import lab3.Contato;
  *
  */
 class ContatoTest {
-	
+
 	Contato c;
 	Contato c1;
 	Contato c2;
@@ -25,8 +25,10 @@ class ContatoTest {
 		c = new Contato("Casa", "de Papel", "99999.8888");
 		c1 = new Contato("Wall", "Guedes", "98888.8888");
 		c2 = new Contato("Wall", "Guedes", "98888.8888");
+		
+		c1.SetNivelAmizade(1);
 	}
-	
+
 	/**
 	 * TESTES DO CONTRUTOR DEVEM DAR CORRETOS TODOS OS CADASTROS;
 	 */
@@ -43,12 +45,11 @@ class ContatoTest {
 	void testContato2() {
 		assertEquals("a l - 98888.8888", new Contato("a", "l", "98888.8888").toString());
 	}
-	
+
 	/**
-	 * TESTE DAS EXCECOES DA CLASSE CONTATO:
-	 * TENTAR CADASTRAR INVALIDOS OU NULOS;
+	 * TESTE DAS EXCECOES DA CLASSE CONTATO: TENTAR CADASTRAR INVALIDOS OU NULOS;
 	 */
-	
+
 	@Test
 	@DisplayName("Teste de Contrucao do Contato com o sobrenome nulo")
 	// DEVE RETORNAR UMA EXCEPTION;
@@ -111,38 +112,38 @@ class ContatoTest {
 	void testGetNome() {
 		assertEquals("Wall", c1.getNome());
 	}
-	
+
 	@Test
 	@DisplayName("")
 	void testGetSobrenome() {
 		assertEquals("Guedes", c1.getSobrenome());
 	}
-	
+
 	@Test
 	@DisplayName("")
 	void testGetTelefone() {
 		assertEquals("98888.8888", c1.getTelefone());
 	}
-	
+
 	@Test
 	@DisplayName("")
 	void testToString() {
 		assertEquals("Wall Guedes - 98888.8888", c1.toString());
 	}
-	
+
 	/**
 	 * TESTE EQUALS;
 	 */
-	
+
 	@Test
 	@DisplayName("Teste equals() CONTATOS DIFERENTES")
 	// ESTE TESTE DEVE RETORNAR FALSE, PORQUE OS CONTATOS NAO SAO IGUAIS.
 	// O QUE OS FAZ SER IGUAIS EH O NOME E O SEU SOBRENOMES;
 	void testEquals() {
 		assertEquals(false, c1.equals(c));
-		
+
 	}
-	
+
 	@Test
 	@DisplayName("Teste equals() CONTATOS IGUAIS")
 	// ESTE TESTE DEVE RETORNAR TRUE, PORQUE OS CONTATOS SAO IGUAIS.
@@ -150,4 +151,7 @@ class ContatoTest {
 	void testEquals1() {
 		assertEquals(true, c1.equals(c2));
 	}
+
+	// TESTES BONUS
+
 }

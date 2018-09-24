@@ -12,32 +12,28 @@ public class InterfaceUsuario {
 		String entrada = "";
 
 		/**
-		 * DO WHILE QUE FUNCIONARÁ PARA A INTERAÇÃO ENTRE O USUÁRIO
-		 * E AS DEMAIS CLASSES CONTIDAS NESSE PROGRAMA;
+		 * DO WHILE QUE FUNCIONARï¿½ PARA A INTERAï¿½ï¿½O ENTRE O USUï¿½RIO E AS DEMAIS CLASSES
+		 * CONTIDAS NESSE PROGRAMA;
 		 */
 		do {
 
-			System.out.print("(C)adastrar Contato \n" 
-					+ "(L)istar Contatos \n"
-					+ "(E)xibir Contato \n"	
-					+ "(S)air \n" 
-					+ System.lineSeparator() 
-					+ "Opção> ");
+			System.out.print("(C)adastrar Contato \n" + "(L)istar Contatos \n" + "(E)xibir Contato \n" + "(S)air \n"
+					+ System.lineSeparator() + "Opcao> ");
 
 			entrada = sc.nextLine().toLowerCase();
 
 			switch (entrada) {
 
 			/**
-			 * CASE DIGITE "C" ESTE BLOCO DEVE SER EXECUTADO;
-			 * RESPONSAVEL POR CADASTRAR OS CONTATOS EM UMA POSICAO,
-			 * CADASTRANDO O CONTATO COM NOME, SOBRENOME E TELEFONE;
+			 * CASE DIGITE "C" ESTE BLOCO DEVE SER EXECUTADO; RESPONSAVEL POR CADASTRAR OS
+			 * CONTATOS EM UMA POSICAO, CADASTRANDO O CONTATO COM NOME, SOBRENOME E
+			 * TELEFONE;
 			 */
 			case "c":
 
 				try {
 
-					System.out.print("Posição: ");
+					System.out.print("Posicao: ");
 					int posicao = sc.nextInt();
 					sc.nextLine();
 
@@ -51,12 +47,12 @@ public class InterfaceUsuario {
 					String telefone = sc.nextLine();
 
 					System.out.println(agenda.cadastraContato(posicao, nome, sobrenome, telefone));
-					
-				/**
-				 * EXCEPTION, SE O USUÁRIO NÃO INFORMAR O NOME, O SOBRENOME,
-				 * TELEFONE OU ENTÃO TENTAR CADASTRAR O CONTATO EM UMA POSIÇÃO
-				 * INVÁLIDA, IREMOS CAPTURAR AS EXCEÇÕES E TRATA-LAS;
-				 */
+
+					/**
+					 * EXCEPTION, SE O USUï¿½RIO Nï¿½O INFORMAR O NOME, O SOBRENOME, TELEFONE OU ENTï¿½O
+					 * TENTAR CADASTRAR O CONTATO EM UMA POSIï¿½ï¿½O INVï¿½LIDA, IREMOS CAPTURAR AS
+					 * EXCEï¿½ï¿½ES E TRATA-LAS;
+					 */
 				} catch (NullPointerException nulo) {
 					System.err.println(nulo.getMessage());
 
@@ -66,78 +62,77 @@ public class InterfaceUsuario {
 				} catch (IndexOutOfBoundsException indexException) {
 					System.err.println(indexException.getMessage());
 
-				} break;
+				}
+				break;
 
 			/**
-			 * CASO DIGITE "E" ESTE BLOCO DEVE SER EXECUTADO;
-			 * EXIBE AO USUARIO OS CONTATOS CADASTRADOS EM UMA DETERMINADA
-			 * POSIÇÃO FORNECIDA PELO USUÁRIO;
+			 * CASO DIGITE "E" ESTE BLOCO DEVE SER EXECUTADO; EXIBE AO USUARIO OS CONTATOS
+			 * CADASTRADOS EM UMA DETERMINADA POSIï¿½ï¿½O FORNECIDA PELO USUï¿½RIO;
 			 */
 			case "e":
 				try {
-					
+
 					System.out.print("Contato> ");
 					int posicaoContato = sc.nextInt();
 					sc.nextLine();
-					
-					System.out.println(System.lineSeparator() 
-							+ agenda.exibirContato(posicaoContato)); 
-					
+
+					System.out.println(System.lineSeparator() + agenda.exibirContato(posicaoContato));
+
 					break;
-					
-				/**
-				 * EXCEPTION, SE O USUÁRIO DIGITAR UMA POSIÇÃO INVÁLIDA
-				 * OU NÃO TIVER NENHUM CONTATO CADASTRADO NA POSIÇÃO INFORMADA
-				 * DEVEMOS ENTÃO CAPTURAR AS EXCEÇÕES E TRATA-LAS;
-				 */
+
+					/**
+					 * EXCEPTION, SE O USUï¿½RIO DIGITAR UMA POSIï¿½ï¿½O INVï¿½LIDA OU Nï¿½O TIVER NENHUM
+					 * CONTATO CADASTRADO NA POSIï¿½ï¿½O INFORMADA DEVEMOS ENTï¿½O CAPTURAR AS EXCEï¿½ï¿½ES E
+					 * TRATA-LAS;
+					 */
 				} catch (NoSuchElementException posicaoInvalida) {
 					System.err.println(posicaoInvalida.getMessage());
-					
+
 				} catch (IndexOutOfBoundsException indexException) {
 					System.err.println(indexException.getMessage());
-					
-				} break;
+
+				}
+				break;
 
 			/**
-			 * CASO DIGITE "L" ESTE BLOCO DEVE SER EXECUTADO;
-			 * EXIBE UMA LISTA LINHA A LINHA COM TODOS OS CONTATOS CADASTRADOS
-			 * NA AGENDA;
+			 * CASO DIGITE "L" ESTE BLOCO DEVE SER EXECUTADO; EXIBE UMA LISTA LINHA A LINHA
+			 * COM TODOS OS CONTATOS CADASTRADOS NA AGENDA;
 			 */
 			case "l":
 				try {
 
 					System.out.println(System.lineSeparator() + agenda.listarContatos());
 					break;
-					
-				/**
-				 * EXCEPTION, CASO O NÃO HAJA NENHUM CONTATO CADASTRADO
-				 * NA AGENDA, DEVEMOS CAPTURAR E TRATAR AS EXCEÇÕES;
-				 */
+
+					/**
+					 * EXCEPTION, CASO O Nï¿½O HAJA NENHUM CONTATO CADASTRADO NA AGENDA, DEVEMOS
+					 * CAPTURAR E TRATAR AS EXCEï¿½ï¿½ES;
+					 */
 				} catch (IllegalArgumentException argumentoIlegal) {
 					System.err.println(argumentoIlegal.getMessage());
-				
-				} break;
+
+				}
+				break;
 
 			/**
-			 * CASO DIGITE "S" ESTE BLOCO DEVE SER EXECUTADO;
-			 * SAIRÁ DO SWITCH E QUEBRARÁ O DO WHILE;
+			 * CASO DIGITE "S" ESTE BLOCO DEVE SER EXECUTADO; SAIRï¿½ DO SWITCH E QUEBRARï¿½ O
+			 * DO WHILE;
 			 */
 			case "s":
 				System.exit(0);
 				break;
-			
+
 			/**
-			 * SE DIGITAR QUALQUER OUTRA LETRA, IMPRIMIRÁ ESTA MENSAGEM;
+			 * SE DIGITAR QUALQUER OUTRA LETRA, IMPRIMIRï¿½ ESTA MENSAGEM;
 			 */
 			default:
-				System.out.print("OPÇÃO INVÁLIDA!" + System.lineSeparator());
+				System.out.print("OPï¿½ï¿½O INVï¿½LIDA!" + System.lineSeparator());
 				break;
 			}
 			sc.nextLine();
 
 		} while (!entrada.equals("s"));
-		
+
 		sc.close();
 	}
 }
-

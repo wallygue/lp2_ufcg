@@ -32,7 +32,7 @@ class AgendaTest {
 	}
 
 	/**
-	 *  TESTE CADASTRAR CONTATOS
+	 * TESTE CADASTRAR CONTATOS
 	 */
 
 	@Test
@@ -49,28 +49,27 @@ class AgendaTest {
 	// ESTE TESTE DEVE OCORRER TUDO BEM, POIS PODE CADASTRAR CONTATOS
 	// SOB OUTRO SEM ERROS;
 	void testCadastraContato1() {
-		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", 
-				agenda.cadastraContato(1, "Novo", "Contato", "986846.7515"));
+		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", agenda.cadastraContato(1, "Novo", "Contato", "986846.7515"));
 	}
-	
+
 	@Test
 	@DisplayName("Teste do metodo cadastraContato()")
 	// DEVE CADASTRAR CORRETAMENTE, POSICAO 1 TESTADA;
 	void testCadastraContato2() {
-		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", 
+		assertEquals("CADASTRO REALIZADO COM SUCESSO!!",
 				agenda.cadastraContato(1, "Wall", "Guedes", "(83) 98888.8888"));
 	}
-	
+
 	@Test
 	@DisplayName("Teste do metodo cadastraContato()")
 	// DEVE CADASTRAR CORRETAMENTE, POSICAO 100 TESTADA;
 	void testCadastraContato3() {
-		assertEquals("CADASTRO REALIZADO COM SUCESSO!!", 
+		assertEquals("CADASTRO REALIZADO COM SUCESSO!!",
 				agenda.cadastraContato(100, "Rha", "Estrela", "(83) 98888.8888"));
 	}
 
 	/**
-	 *  TESTE LISTAR CONTATOS
+	 * TESTE LISTAR CONTATOS
 	 */
 
 	@Test
@@ -90,19 +89,17 @@ class AgendaTest {
 	void testListarContatos1() {
 		assertEquals("1 - Wall Guedes", agenda1.listarContatos());
 	}
-	
+
 	@Test
 	@DisplayName("Teste do metodo listarContatos()")
 	// TESTE CORRETO, IMPRESSAO DE UMA STRING LINHA A LINHA, COM UMA REPRESENTACAO
 	// TEXTUAL DOS CONTATOS;
 	void testListarContatos2() {
-		assertEquals("1 - Rha Estrela\n"
-				+ "2 - Bk Guedes\n"
-				+ "3 - Bielly Ferreira", agenda2.listarContatos());
+		assertEquals("1 - Rha Estrela\n" + "2 - Bk Guedes\n" + "3 - Bielly Ferreira", agenda2.listarContatos());
 	}
 
 	/**
-	 *  TESTE EXIBIR CONTATOS
+	 * TESTE EXIBIR CONTATOS
 	 */
 
 	@Test
@@ -130,11 +127,11 @@ class AgendaTest {
 	void testExibirContato2() {
 		assertEquals("Wall Guedes - (83) 98888.8888", agenda1.exibirContato(1));
 	}
-	
+
 	/**
 	 * TESTE EQUALS
 	 */
-	
+
 	@Test
 	@DisplayName("Teste do metodo equals(), CORRETO")
 	// DEVE RETORNAR TRUE PORQUE AS DUAS AGENDAS
@@ -142,7 +139,7 @@ class AgendaTest {
 	void testEquals() {
 		assertEquals(true, this.agenda1.equals(this.agenda3));
 	}
-	
+
 	@Test
 	@DisplayName("Teste do metodo equals(), FALSO")
 	// DEVE RETORNAR FALSE PORQUE AS DUAS AGENDAS
@@ -150,4 +147,23 @@ class AgendaTest {
 	void testEquals2() {
 		assertEquals(false, this.agenda1.equals(this.agenda2));
 	}
+	
+	@Test
+	@DisplayName("Teste do metodo adicionaContato(), CADASTRO CORRETO")
+	// O TESTE DEVE DAR CERTO SEM NENHUM PROBLEMA
+	// O CONTATO EXISTE E O NIVEL FOI ADICIONADO COM SUCESSO;
+	void testAdicionaContato() {
+		assertEquals("O nivel de amizade foi adicionado ao contato com sucesso!", agenda1.adicionaNivelAmizade(1, 1));
+	}
+	
+	@Test
+	@DisplayName("Teste do metodo adicionaContato(), CADASTRO INCORRETO")
+	// O TESTE DEVE DAR CERTO SEM NENHUM PROBLEMA
+	// O CONTATO  NAO EXISTE NESTA POSICAO POR ISSO NAO EH POSSIVEL ADICIONAR;
+	void testAdicionaContato1() {
+		assertEquals("Nao foi possivel adicionar o nivel de amizade ao contato!\n"
+				+ "Nao existe contato na posicao informada.", agenda1.adicionaNivelAmizade(2, 1));
+	}
+	
+	
 }
