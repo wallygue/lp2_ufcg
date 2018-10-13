@@ -8,4 +8,4 @@ Discíplina: Laboratório de Programação 2
    Neste lab existe um sistema reponsável por gerenciar alunos de
 vários cursos, grupos de estudos em que alunos podem se cadastrar,
 alunos que responderam no quadro.
-   Lab Completo.
+   Lab Completo. 10
