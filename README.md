@@ -2,7 +2,7 @@ LP2 Exercises
 
 University Discipline: Laboratório de Programação 2 - UFCG
 
-Repositório destinado as atividades práticas da disciplina Laboratório de Programação II,  do curso de Ciêcias da Computação da UFCG (Federal University of Campina Grande | Brazil). The learning of the discipline is done progressively and the codes reflect this learning, as well as its practices in each activity.
+Repository for the practical activities of the discipline Laboratory of Programming II, of the course of Sciences of the Computing of the UFCG (Federal University of Campina Grande | Brazil). The learning of the discipline is done progressively and the codes reflect this learning, as well as its practices in each activity.
 
 	Laboratory 02: Controle Institucional da Situação Acadêmica (COISA)
 	Laboratory 03: Agenda de Contatos
