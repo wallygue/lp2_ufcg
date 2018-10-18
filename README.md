@@ -7,8 +7,6 @@ Repository for the practical activities of the discipline Programming Laboratory
 	Laboratory 02: Controle Institucional da Situação Acadêmica (COISA)
 	Laboratory 03: Agenda de Contatos
 	Laboratory 04: Controle de Alunos
-	Extras: LabExtra 1 - Agenda de Contatos (Aprimorada)
-            LabExtra 2 - Sp2fy (Store and Organize Songs from a User Profile)
 
 Language used: Java (https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html);
 
