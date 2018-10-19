@@ -10,6 +10,12 @@ public class Musica {
 		this.duracao = duracao;
 		this.genero = genero;
 
+		if (titulo == null && titulo == null && genero == null)
+			throw new NullPointerException("");
+		
+		if (titulo.equals("") && duracao <= 0 && genero.equals(""))
+			throw new IllegalArgumentException("");
+		
 	}
 
 	public String getTitulo() {
@@ -20,11 +26,9 @@ public class Musica {
 		return this.duracao;
 	}
 
-	
-	
 	@Override
 	public String toString() {
-		return titulo + ", " + genero + ", " + duracao + ".";
+		return titulo + "\n" + "Genero: " + genero + "\n" + "Duracao: " + duracao + "\n";
 	}
 
 	@Override
