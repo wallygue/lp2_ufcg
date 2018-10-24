@@ -1,14 +1,22 @@
 package sp2fy;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Classe representa um album de musicas. Este album possui um titulo, o nome do
+ * artista, ano que foi lançado e uma colecao de musicas.
+ * 
+ * @author Wallyngson Guedes
+ *
+ */
 public class Album {
 
 	private String titulo;
 	private String artista;
 	private String ano;
 	private int duracaoAlbum = 0;
-	private ArrayList<Musica> musicas;
+	private List<Musica> musicas;
 
 	public Album(String titulo, String artista, String ano) {
 		this.titulo = titulo;
@@ -21,17 +29,28 @@ public class Album {
 		if (titulo.equals("") || artista.equals("") || ano.equals(""))
 			throw new IllegalArgumentException("");
 
-		musicas = new ArrayList<>();
+		this.musicas = new ArrayList<>();
 
 	}
 
-	public void adicionaMusica(String titulo, int duracao, String genero) {
-		this.musicas.add(new Musica(titulo, duracao, genero));
+	public String adicionaMusica(String titulo, int duracao, String genero) {
+		if (validaMusica(new Musica(titulo, duracao, genero)))
+			return "Musica ja cadastrada!";
 
+		this.musicas.add(new Musica(titulo, duracao, genero));
+		return "Musica cadastrada com sucesso!";
+	}
+
+	private boolean validaMusica(Musica musica) {
+		for (int i = 0; i < musicas.size(); i++) {
+			if (this.musicas != null && this.musicas.get(i).equals(musica))
+				return true;
+		}
+		return false;
 	}
 
 	public String retiraMusica(int posicao) {
-		if (this.musicas.get(posicao - 1) != null) {
+		if (this.validaMusica(posicao) != null) {
 			duracaoAlbum -= this.musicas.get(posicao - 1).getDuracao();
 			this.musicas.remove(posicao - 1);
 			return "Musica removida com sucesso!";
@@ -41,19 +60,22 @@ public class Album {
 
 	}
 
-	public String pesquisaMusica(int posicao) {
-		return this.validaMusica(posicao);
-
-	}
-
-	public String tocarMusica(int posicao) {
+	public Musica pesquisaMusica(int posicao) {
 		return this.validaMusica(posicao);
 	}
 
-	private String validaMusica(int posicao) {
-		if (musicas.get(posicao - 1) != null)
-			return this.musicas.get(posicao - 1).toString();
-		return "Musica nao encontrada!";
+	public Musica tocarMusica(String nome) {
+		for (int i = 0; i < musicas.size(); i++) {
+			if (this.musicas != null && this.musicas.get(i).getTitulo().equals(nome))
+				return this.musicas.get(i);
+		}
+		return null;
+	}
+
+	private Musica validaMusica(int posicao) {
+		if (this.musicas.get(posicao - 1) != null)
+			return this.musicas.get(posicao - 1);
+		return null;
 
 	}
 

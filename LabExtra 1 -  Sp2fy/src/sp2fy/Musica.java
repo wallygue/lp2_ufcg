@@ -1,5 +1,12 @@
 package sp2fy;
 
+/**
+ * Esta classe representa uma musica que possui um titulo, um genero e uma
+ * duracao total.
+ * 
+ * @author Wallyngson Guedes
+ *
+ */
 public class Musica {
 	private String titulo;
 	private String genero;
@@ -12,10 +19,10 @@ public class Musica {
 
 		if (titulo == null && titulo == null && genero == null)
 			throw new NullPointerException("");
-		
+
 		if (titulo.equals("") && duracao <= 0 && genero.equals(""))
 			throw new IllegalArgumentException("");
-		
+
 	}
 
 	public String getTitulo() {
@@ -43,9 +50,14 @@ public class Musica {
 
 	@Override
 	public boolean equals(Object obj) {
-		Musica other = (Musica) obj;
-		return (this.getTitulo().equals(other.getTitulo()) && this.getDuracao() == other.getDuracao());
+		Musica outro = (Musica) obj;
+		return (this.reduzEspaco(this.getTitulo()).equals(reduzEspaco(outro.getTitulo()))
+				&& this.getDuracao() == outro.getDuracao());
 
+	}
+
+	private String reduzEspaco(String palavras) {
+		return palavras.toLowerCase().replace(" ", "");
 	}
 
 }
