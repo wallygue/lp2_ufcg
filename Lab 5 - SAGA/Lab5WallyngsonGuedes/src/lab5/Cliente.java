@@ -14,16 +14,12 @@ public class Cliente {
 	private String localizacao;
 
 	public Cliente(String cpf, String nome, String email, String localizacao) {
-		
-		this.parametroNulo(nome, email, localizacao);
-		this.parametroInvalido(nome, email, localizacao);
+		this.parametroErrado(nome, email, localizacao);
 		
 		this.cpf = cpf;
 		this.nome = nome;
 		this.email = email;
 		this.localizacao = localizacao;
-		
-		
 	}
 
 	public String getCPF() {
@@ -31,25 +27,13 @@ public class Cliente {
 	}
 
 	public String editarCliente(String nome, String email, String localizacao) {
-		this.parametroNulo(nome, email, localizacao);
-		this.parametroInvalido(nome, email, localizacao);
+		this.parametroErrado(nome, email, localizacao);
 		
 		this.nome = nome;
 		this.email = email;
 		this.localizacao = localizacao;
 		
 		return "Cliente editado com sucesso!";
-			
-	}
-	
-	private void parametroNulo(String nome, String email, String localizacao) {
-		if (nome == null || email == null || localizacao == null)
-			throw new NullPointerException();
-	}
-	
-	private void parametroInvalido(String nome, String email, String localizacao) {
-		if (nome.equals("") || email.equals("") || localizacao.equals(""))
-			throw new NullPointerException();
 	}
 	
 	@Override
@@ -74,7 +58,12 @@ public class Cliente {
 		return this.getCPF().equals(novo.getCPF());
 	}
 
-
+	private void parametroErrado(String nome, String email, String localizacao) {
+		if (nome == null || email == null || localizacao == null)
+			throw new NullPointerException();
+		if (nome.equals("") || email.equals("") || localizacao.equals(""))
+			throw new NullPointerException();
+	}
 
 
 }
