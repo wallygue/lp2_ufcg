@@ -81,6 +81,12 @@ public class Controller {
 		if (this.validaAluno(matricula) && this.validaGrupo(grupo))
 			return this.alocar(matricula, grupo);
 
+		if (this.validaAluno(matricula) == false && validaGrupo(grupo) == false)
+			return "O GRUPO E O ALUNO NAO ESTAO CADASTRADO NO SISTEMA!";
+		
+		if (this.validaGrupo(grupo) == false)
+			return "GRUPO NAO CADASTRADO NO SISTEMA!";
+		
 		return "ALUNO NAO CADASTRADO NO SISTEMA!";
 	}
 
