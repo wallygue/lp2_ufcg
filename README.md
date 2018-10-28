@@ -1,4 +1,4 @@
-LP2 Exercises - Second Graduation Period
+﻿LP2 Exercises - Second Graduation Period
 
 University Discipline: Laboratório de Programação 2 - UFCG
 
@@ -7,6 +7,7 @@ Repository for the practical activities of the discipline Programming Laboratory
 	Laboratory 02: Controle Institucional da Situação Acadêmica (COISA)
 	Laboratory 03: Agenda de Contatos
 	Laboratory 04: Controle de Alunos
+	Laboratory 05: Sistema para Auto-Gestão de comércio de Alimentos (SAGA)
 	LabExtra 1 - Sp2fy (Armazenar e organizar sons de perfis de usuários)
 
 Language used: Java (https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html);
