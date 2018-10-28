@@ -1,12 +1,14 @@
 package lab5;
 
+//import java.util.Comparator;
+
 /**
  * Esta classe representa um cliente.
  * 
  * @author Wallyngson Guedes
  *
  */
-public class Cliente {
+public class Cliente implements Comparable<Cliente> {
 
 	private String cpf;
 	private String nome;
@@ -24,6 +26,10 @@ public class Cliente {
 
 	public String getCPF() {
 		return this.cpf;
+	}
+	
+	public String getNome() {
+		return this.nome;
 	}
 
 	public String editarCliente(String nome, String email, String localizacao) {
@@ -58,12 +64,17 @@ public class Cliente {
 		return this.getCPF().equals(novo.getCPF());
 	}
 
+	@Override
+	public int compareTo(Cliente c1) {
+		return this.getNome().compareTo(c1.getNome());
+		
+	}
+
 	private void parametroErrado(String nome, String email, String localizacao) {
 		if (nome == null || email == null || localizacao == null)
 			throw new NullPointerException();
 		if (nome.equals("") || email.equals("") || localizacao.equals(""))
 			throw new NullPointerException();
 	}
-
 
 }

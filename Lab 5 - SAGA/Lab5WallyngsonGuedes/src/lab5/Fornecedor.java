@@ -1,9 +1,10 @@
 package lab5;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Fornecedor {
+public class Fornecedor implements Comparable<Fornecedor> {
 
 	private String nome;
 	private String email;
@@ -33,7 +34,7 @@ public class Fornecedor {
 		return this.nome;
 	}
 
-	public String cadastrarProduto(String nomeProduto, String descricao, float preco) {
+	public String cadastrarProduto(String nomeProduto, String descricao, double preco) {
 		if (validaProduto(nomeProduto, descricao) == null) {
 			this.produtos.add(new Produto(nomeProduto, descricao, preco));
 			return "Produto cadastrado com sucesso!";
@@ -57,6 +58,24 @@ public class Fornecedor {
 		
 	}
 	
+	public String listarProdutos() {
+		Collections.sort(produtos);
+		return listaDosProdutos(produtos);
+	}
+	
+	private String listaDosProdutos(List<Produto> produtos) {
+		if (produtos.size() == 0)
+			return "";
+		
+		String listaProdutos = "";
+		
+		for (int i = 0; i < produtos.size(); i++) {
+			listaProdutos += this.getNome() + " - " + produtos.get(i).toString() + " | ";
+		}
+		
+		return listaProdutos.substring(0, listaProdutos.length() - 3);
+	}
+
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.email + " - " + this.telefone;
@@ -87,6 +106,11 @@ public class Fornecedor {
 		return null;
 	}
 	
+	@Override
+	public int compareTo(Fornecedor f2) {
+		return this.getNome().compareTo(f2.getNome());
+	}
+
 	private void parametroErrado(String email, String telefone) {
 		if (email == null || telefone == null)
 			throw new NullPointerException();
@@ -94,7 +118,6 @@ public class Fornecedor {
 		if (email.equals("") || telefone.equals(""))
 			throw new NullPointerException();
 	}
-
 
 
 }

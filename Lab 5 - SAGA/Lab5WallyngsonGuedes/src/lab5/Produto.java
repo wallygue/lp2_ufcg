@@ -1,12 +1,12 @@
 package lab5;
 
-public class Produto {
+public class Produto implements Comparable<Produto> {
 
 	private String nome;
 	private String descricao;
-	private float preco;
+	private double preco;
 
-	public Produto(String nome, String descricao, float preco) {
+	public Produto(String nome, String descricao, double preco) {
 		this.parametroErrado(nome, descricao, preco);
 		
 		this.nome = nome;
@@ -46,7 +46,9 @@ public class Produto {
 		int result = 1;
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + Float.floatToIntBits(preco);
+		long temp;
+		temp = Double.doubleToLongBits(preco);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -62,11 +64,17 @@ public class Produto {
 	}
 	
 	
-	private void parametroErrado(String nome, String descricao, float preco) {
-		if (nome == null || descricao == null || preco <= 0)
+	private void parametroErrado(String nome, String descricao, double preco) {
+		if (nome == null || descricao == null)
 			throw new NullPointerException();
 		if (nome.equals("") || descricao.equals("") || preco <= 0)
 			throw new IllegalArgumentException();
 	}
+
+	@Override
+	public int compareTo(Produto p2) {
+		return this.getDesricao().compareTo(p2.getDesricao());
+	}
+
 
 }

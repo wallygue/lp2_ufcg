@@ -19,10 +19,14 @@ public class Facade {
 		return this.controller.retornaCliente(cpf);
 	}
 
+	public String listarClientes() {
+		return this.controller.listarClientes();
+	}
+
 	public String editarCliente(String cpf, String nome, String email, String localizacao) {
 		return this.controller.editarCliente(cpf, nome, email, localizacao);
 	}
-
+	
 	public String removerCliente(String cpf) {
 		return this.controller.removerCliente(cpf);
 	}
@@ -35,6 +39,10 @@ public class Facade {
 
 	public String retornarFornecedor(String nome) {
 		return this.controller.retornaFornecedor(nome);
+	}
+	
+	public String listarFornecedores() {
+		return this.controller.listarFornecedores();
 	}
 
 	public String editarFornecedor(String nome, String email, String telefone) {
@@ -57,5 +65,13 @@ public class Facade {
 	
 	public String editarPreco(String fornecedor, String nomeProduto, String descricao, float preco) {
 		return this.controller.editarPreco(fornecedor, nomeProduto, descricao, preco);
+	}
+	
+//	public String listarProdutos() {
+//		return this.controller.listarProdutos();
+//	}
+	
+	public String listarProdutosDeUmFornecedor(String fornecedor) {
+		return this.controller.listarProdutosDeUmFornecedor(fornecedor);
 	}
 }
