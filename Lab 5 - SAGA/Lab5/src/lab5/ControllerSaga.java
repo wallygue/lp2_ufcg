@@ -23,7 +23,7 @@ public class ControllerSaga {
 		this.fornecedores = new HashMap<>();
 	}
 
-	// CLIENTES OK
+	// CLIENTES
 
 	/**
 	 * Metodo responsavel por cadastrar Clientes.
@@ -104,20 +104,18 @@ public class ControllerSaga {
 	public String listarClientes() {
 		if (this.clientes.size() == 0)
 			return "Nao existe nenhum cliente cadastrado nesse sistema.";
-		
+
 		List<Cliente> listaClientes = new ArrayList<Cliente>(clientes.values());
 		Collections.sort(listaClientes);
 
 		return this.listaDosClientes(listaClientes);
 	}
-	
 
 	private boolean validaCliente(String cpf) {
 		if (this.clientes.containsKey(cpf))
 			return true;
 		return false;
 	}
-	
 
 	private String listaDosClientes(List<Cliente> listaClientes) {
 		String clientes = "";
@@ -129,8 +127,7 @@ public class ControllerSaga {
 		return clientes.substring(0, clientes.length() - 3);
 	}
 
-	// FORNECEDOR OK
-
+	// FORNECEDOR
 
 	/**
 	 * Metodo responsavel por cadastrar um fornecedor no sistema.
@@ -150,7 +147,6 @@ public class ControllerSaga {
 		return "Fornecedor cadastrado com sucesso!";
 
 	}
-	
 
 	/**
 	 * Este metodo retorna um fornecedor passado como parametro.
@@ -166,7 +162,6 @@ public class ControllerSaga {
 		return "Fornecedor nao esta cadastrado no sistema!";
 
 	}
-	
 
 	/**
 	 * Este metodo retorna todos os fornecedores cadastrados no sistema por ordem
@@ -177,13 +172,12 @@ public class ControllerSaga {
 	public String listarFornecedores() {
 		if (fornecedores.size() == 0)
 			return "Nao existe nenhum fornecedor cadastrado no sistema.";
-		
+
 		List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>(fornecedores.values());
 		Collections.sort(listaFornecedor);
 
 		return this.listaDeFornecedores(listaFornecedor);
 	}
-	
 
 	/**
 	 * Este metodo edita os atributos de um fornecedor.
@@ -200,7 +194,6 @@ public class ControllerSaga {
 			return this.fornecedores.get(nome).editarFornecedor(email, telefone);
 		return "Fornecedor nao cadastrado no sistema!";
 	}
-	
 
 	/**
 	 * Este metodo remove um fornecedor do sistema atraves do seu nome.
@@ -218,14 +211,12 @@ public class ControllerSaga {
 
 		return "Fornecedor nao cadastrado no sistema!";
 	}
-	
 
 	private boolean validaFornecedor(String nome) {
 		if (this.fornecedores.containsKey(nome))
 			return true;
 		return false;
 	}
-	
 
 	private String listaDeFornecedores(List<Fornecedor> listaFornecedor) {
 		String fornecedores = "";
@@ -237,8 +228,7 @@ public class ControllerSaga {
 		return fornecedores.substring(0, fornecedores.length() - 3);
 	}
 
-	// PRODUTOS OK
-
+	// PRODUTOS
 
 	/**
 	 * Adiciona produtos ao fornecedor.
@@ -257,7 +247,6 @@ public class ControllerSaga {
 
 		return "Fornecedor nao cadastrado!";
 	}
-	
 
 	/**
 	 * Metodo que retorna um produto pelo seu nome.
@@ -275,7 +264,6 @@ public class ControllerSaga {
 
 		return "Fornecedor nao cadastrado!";
 	}
-	
 
 	/**
 	 * Edita o preco do produto passado como parametro.
@@ -294,30 +282,29 @@ public class ControllerSaga {
 
 		return "Fornecedor nao cadastrado!";
 	}
-	
+
 	/**
 	 * Este metodo lista todos os produtos de todos os fornecedores.
+	 * 
 	 * @return
 	 */
-
 	public String listarProdutos() {
 		List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>(fornecedores.values());
 		Collections.sort(listaFornecedor);
 
 		return this.listaDeProdutos(listaFornecedor);
 	}
-	
+
 	/**
 	 * Metodo retorna todos os produtos de um fornecedor passado por parametro.
 	 * 
 	 * @param fornecedor
 	 * @return os produtos ou informando que nao existe nenhum cadastrado;
 	 */
-
 	public String listarProdutosDeUmFornecedor(String fornecedor) {
 		if (this.fornecedores.get(fornecedor).listarProdutos().equals(""))
 			return "Nenhum produto cadastrado!";
-		
+
 		String lista = this.fornecedores.get(fornecedor).listarProdutos();
 		return lista.substring(0, lista.length() - 3);
 	}

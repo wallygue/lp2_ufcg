@@ -8,6 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import lab5.ControllerSaga;
 
+/**
+ * Classe de testes unitario da classe ControllerSaga do LAB5.
+ * 
+ * @author Wallyngson Guedes
+ *
+ */
 class ControllerTest {
 
 	private ControllerSaga controller;
