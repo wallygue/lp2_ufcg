@@ -64,7 +64,7 @@ public class Facade {
 
 	// PRODUTO
 
-	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, float preco) {
+	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, Double preco) {
 		this.controller.adicionaProduto(fornecedor, nomeProduto, descricao, preco);
 	}
 
@@ -72,7 +72,7 @@ public class Facade {
 		return this.controller.exibeProduto(nomeProduto, descricao, fornecedor);
 	}
 
-	public void editaProduto(String nomeProduto, String descricao, String fornecedor, double novoPreco) {
+	public void editaProduto(String nomeProduto, String descricao, String fornecedor, Double novoPreco) {
 		this.controller.editaPreco(nomeProduto, descricao, fornecedor, novoPreco);
 	}
 

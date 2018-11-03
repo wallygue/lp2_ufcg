@@ -39,22 +39,6 @@ public class Fornecedor implements Comparable<Fornecedor> {
 			throw new IllegalArgumentException("telefone nao pode ser vazio ou nulo.");
 	}
 	
-	/**
-	 * Edita os parametros do fornecedor.
-	 * 
-	 * @param email
-	 * @param telefone
-	 * @return
-	 */
-	public String editarFornecedor(String email, String telefone) {
-
-		this.email = email;
-		this.telefone = telefone;
-
-		return "Fornecedor editado com sucesso!";
-
-	}
-
 	public String getNome() {
 		return this.nome;
 	}
@@ -76,7 +60,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param preco
 	 * @return
 	 */
-	public void adicionaProduto(String nomeProduto, String descricao, float preco) {
+	public void adicionaProduto(String nomeProduto, String descricao, Double preco) {
 		this.nomeProdutoInvalido(nomeProduto, descricao);
 		this.validaProduto(nomeProduto, descricao);
 		
@@ -145,8 +129,11 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param preco
 	 * @return
 	 */
-	public void editaPreco(String nomeProduto, String descricao, double preco) {
+	public void editaPreco(String nomeProduto, String descricao, Double preco) {
 		this.nomeProdutoInvalido(nomeProduto, descricao);
+		if (preco <= 0)
+			throw new IllegalArgumentException("preco invalido.");
+		
 		this.exibe(nomeProduto, descricao).setPreco(preco);
 		
 	}

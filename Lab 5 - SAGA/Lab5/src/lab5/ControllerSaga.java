@@ -135,8 +135,6 @@ public class ControllerSaga {
 			this.clientes.get(cpf).setEmail(novoValor);
 		if (atributo.equals("localizacao"))
 			this.clientes.get(cpf).setLocalizacao(novoValor);
-		if (!atributo.equals("nome") && !atributo.equals("email") && !atributo.equals("localizacao"))
-			throw new IllegalArgumentException("atributo nao existe.");
 	}
 
 	/**
@@ -150,6 +148,8 @@ public class ControllerSaga {
 			throw new IllegalArgumentException("atributo nao pode ser vazio ou nulo.");
 		if (novoValor.isEmpty() || novoValor == null)
 			throw new IllegalArgumentException("novo valor nao pode ser vazio ou nulo.");
+		if (!atributo.equals("nome") && !atributo.equals("email") && !atributo.equals("localizacao"))
+			throw new IllegalArgumentException("atributo nao existe.");
 
 	}
 
@@ -224,6 +224,7 @@ public class ControllerSaga {
 
 			this.fornecedores.put(nome, new Fornecedor(nome, email, telefone));
 			return nome;
+			
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: " + iae.getMessage());
 		}
@@ -248,7 +249,6 @@ public class ControllerSaga {
 	private void nomeInvalido(String nome) {
 		if (nome.trim().isEmpty() || nome == null)
 			throw new IllegalArgumentException("nome nao pode ser vazio ou nulo.");
-
 	}
 
 	/**
@@ -323,12 +323,12 @@ public class ControllerSaga {
 	 * @param telefone
 	 * @return
 	 */
-	public void editarFornecedor(String nome, String atributo, String novoValor) {
+	public void editaFornecedor(String nome, String atributo, String novoValor) {
 		try {
 			this.nomeInvalido(nome);
 			this.fornecedorInexistente(nome);
 
-			this.editarF(nome, atributo, novoValor);
+			this.edita(nome, atributo, novoValor);
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro na edicao do fornecedor: " + iae.getMessage());
 		}
@@ -341,14 +341,28 @@ public class ControllerSaga {
 	 * @param atributo
 	 * @param novoValor
 	 */
-	private void editarF(String nome, String atributo, String novoValor) {
-		this.valoresInvalidos(atributo, novoValor);
+	private void edita(String nome, String atributo, String novoValor) {
+		this.valoresInvalidosFornecedor(atributo, novoValor);
 		this.nomeFornecedor(nome, atributo, novoValor);
 
 		if (atributo.equals("email"))
 			this.fornecedores.get(nome).setEmail(novoValor);
 		if (atributo.equals("telefone"))
 			this.fornecedores.get(nome).setTelefone(novoValor);
+	}
+	
+	/**
+	 * Verifica se os valores do fornecedor sao invalidos.
+	 * 
+	 * @param atributo
+	 * @param novoValor
+	 */
+	private void valoresInvalidosFornecedor(String atributo, String novoValor) {
+		if (atributo.trim().isEmpty() || atributo == null)
+			throw new IllegalArgumentException("atributo nao pode ser vazio ou nulo.");
+		if (novoValor.trim().isEmpty() || novoValor == null)
+			throw new IllegalArgumentException("novo valor nao pode ser vazio ou nulo.");
+			
 	}
 
 	/**
@@ -395,7 +409,7 @@ public class ControllerSaga {
 	 * @param preco
 	 * @return
 	 */
-	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, float preco) {
+	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, Double preco) {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
 			this.fornecedorInexistente(fornecedor); // ERROR
@@ -445,7 +459,7 @@ public class ControllerSaga {
 	 * @param preco
 	 * @return 
 	 */
-	public void editaPreco(String nomeProduto, String descricao, String fornecedor, double preco) {
+	public void editaPreco(String nomeProduto, String descricao, String fornecedor, Double preco) {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
 			this.fornecedorInexistente(fornecedor);;
@@ -453,7 +467,7 @@ public class ControllerSaga {
 			this.fornecedores.get(fornecedor).editaPreco(nomeProduto, descricao, preco);
 			
 		} catch (IllegalArgumentException iae) {
-			throw new IllegalArgumentException("Erro na edicao do produto: " + iae.getMessage());
+			throw new IllegalArgumentException("Erro na edicao de produto: " + iae.getMessage());
 		}
 		
 	}

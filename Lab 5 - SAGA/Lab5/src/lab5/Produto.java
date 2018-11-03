@@ -10,9 +10,9 @@ public class Produto implements Comparable<Produto> {
 
 	private String nome;
 	private String descricao;
-	private double preco;
+	private Double preco;
 
-	public Produto(String nome, String descricao, double preco) {
+	public Produto(String nome, String descricao, Double preco) {
 		this.parametroInvalido(descricao, preco);
 
 		this.nome = nome;
@@ -27,7 +27,7 @@ public class Produto implements Comparable<Produto> {
 	 * @param descricao
 	 * @param preco
 	 */
-	private void parametroInvalido(String descricao, double preco) {
+	private void parametroInvalido(String descricao, Double preco) {
 		if (descricao.trim().isEmpty() || descricao == null)
 			throw new IllegalArgumentException("descricao nao pode ser vazia ou nula.");
 		if (preco <= 0)
@@ -39,7 +39,7 @@ public class Produto implements Comparable<Produto> {
 		this.descricao = descricao;
 	}
 
-	public void setPreco(double preco) {
+	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 	
@@ -66,16 +66,17 @@ public class Produto implements Comparable<Produto> {
 	 * @param preco
 	 * @return
 	 */
-	public String alteraPreco(double preco) {
+	public String alteraPreco(Double preco) {
 		this.validaPreco(preco);
 
 		this.preco = preco;
 		return "Preco alterado com sucesso!";
 	}
 
+	
 	@Override
 	public String toString() {
-		return this.nome + " - " + this.descricao + " - R$" + this.preco;
+		return this.nome + " - " + this.descricao + " - R$" + String.valueOf(this.preco).replace(".", ",") + "0";
 	}
 
 	@Override
