@@ -1,4 +1,4 @@
-**Laboratório 3** - *Agenda de Contatos
+**Laboratório 3** - *Agenda de Contatos*
 
 - Segundo exércicio prático de LP2.
 
