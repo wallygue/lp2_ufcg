@@ -3,28 +3,22 @@ package lab3;
 import java.util.Arrays;
 
 /**
- * ESTA CLASSE EH UMA REPRESENTACAO DE UMA AGENDA, ONDE ï¿½ POSSIVEL ADICIONAR
- * CONTATOS, LISTAR CONTATOS E EXIBIR OS CONTATOS CADASTRADOS NESTA AGENDA;
+ * Classe que representa uma agenda de contatos.
  * 
  * @author Wallyngson Guedes
  *
  */
 public class Agenda {
 
-	/**
-	 * ARRAY DE CONTATOS QUE VAI ARMAZENAR TODOS OS CONTATOS, ESSE ARRAY POSSUI 100
-	 * POSICOES;
-	 */
-	private Contato[] contatos = new Contato[100];
+	private Contato[] contatos;
 	private Contato contato;
 
 	public Agenda() {
+		contatos = new Contato[100];
 	}
 
 	/**
-	 * METODO RESPONSAVEL POR CADASTRAR OS CONTATOS NO ARRAY DE CONTATOS. RECEBE OS
-	 * PARAMETROS DA CLASSE MENU, A POSICAO ONDE DEVE SER CADASTRADO, O NOME,
-	 * SOBRENOME E TELEFONE;
+	 * Cadastrada um contato na posicao informada por parametro.
 	 * 
 	 * @param posicao
 	 * @param nome
@@ -33,57 +27,209 @@ public class Agenda {
 	 * @return
 	 */
 	public String cadastraContato(int posicao, String nome, String sobrenome, String telefone) {
-		if (posicao > this.contatos.length || posicao < 1)
-			throw new IndexOutOfBoundsException("Cadastro nao realizado!\n"
-					+ "A posicao informada excede o limite de posicoes.\n" + "Informe uma posicao entre 1 e 100.");
+		this.posicaoInvalida(posicao);
 
 		contato = new Contato(nome, sobrenome, telefone);
 		contatos[posicao - 1] = contato;
-		return "CADASTRO REALIZADO COM SUCESSO!!";
+		return "Cadastro realizado com sucesso!";
 
 	}
 
 	/**
-	 * ESTE METODO EXIBE O CONTATO CADASTRADO EM UMA DETERMINADA POSICAO INFORMADA
-	 * PELO USUARIO;
+	 * Verifica se a posicao eh valida.
+	 * 
+	 * @param posicao
+	 */
+	private void posicaoInvalida(int posicao) {
+		if (posicao > this.contatos.length || posicao < 1)
+			throw new IndexOutOfBoundsException("Cadastro nao realizado!\n"
+					+ "A posicao informada excede o limite de posicoes.\n" + "Informe uma posicao entre 1 e 100.");
+	}
+
+	/**
+	 * Exibe um contato em uma posicao passada por parametro.
 	 * 
 	 * @param posicao
 	 * @return
 	 */
 	public String exibirContato(int posicao) {
-		// EXCEPTIONS
-		if (this.contatos[posicao - 1] == null)
-			throw new NullPointerException("NAO EXISTE CONTATO NESTA POSICAO!!");
-		if (posicao > this.contatos.length || posicao < 1)
-			throw new IndexOutOfBoundsException("POSICAO SOLICITADA EH INVALIDA!!");
+		this.contatoValido(posicao);
+		;
 
 		return contatos[posicao - 1].toString();
-
 	}
 
 	/**
-	 * METODO QUE LISTA TODOS OS CONTATOS CADASTRADOS LINHA A LINHA, E RETORNA A
-	 * CLASSE MENU UMA STRING COM ESSAS INFORMACOES;
+	 * Verifica se o contato eh valido.
+	 * 
+	 * @param posicao
+	 */
+	private void contatoValido(int posicao) {
+		if (this.contatos[posicao - 1] == null)
+			throw new NullPointerException("Nao exite nenhum contato nesta posicao!");
+		if (posicao > this.contatos.length || posicao < 1)
+			throw new IndexOutOfBoundsException("Posicao solicitada eh invalida!");
+	}
+
+	/**
+	 * Lista todos os contatos cadastrados na agenda.
 	 * 
 	 * @return
 	 */
 	public String listarContatos() {
-		String contatosListados = "";
+		if (this.listar().trim().isEmpty())
+			throw new NullPointerException("Nenhum contato cadastrado!");
 
+		return listar().substring(0, listar().length() - 1);
+	}
+
+	/**
+	 * Cria uma String com todos os contatos cadastrados e retorna para o metodo que
+	 * o chamou.
+	 * 
+	 * @return
+	 */
+	private String listar() {
+		String lista = "";
 		for (int i = 0; i < contatos.length; i++) {
 			if (this.contatos[i] != null) {
-				contatosListados += Integer.toString(i + 1) + " - " + contatos[i].getNome() + " "
-						+ contatos[i].getSobrenome() + "\n";
-
+				lista += Integer.toString(i + 1) + " - " + contatos[i].getNome() + " " + contatos[i].getSobrenome()
+						+ "\n";
 			}
 		}
+		return lista;
+	}
 
-		// EXCEPTION
-		if (contatosListados.trim().equals(""))
-			throw new NullPointerException("NAO EXISTEM CONTATOS CADASTRADOS!!");
+	/**
+	 * Adiciona nivel de amizade a um contato passado por parametro.
+	 * 
+	 * @param posicao
+	 * @param nivelAmizade
+	 * @return
+	 */
+	public String adicionaNivelAmizade(int posicao, int nivelAmizade) {
+		this.contatoValido(posicao);
 
-		contatosListados = contatosListados.substring(0, contatosListados.length() - 1);
-		return contatosListados;
+		contatos[posicao - 1].SetNivelAmizade(nivelAmizade);
+		return "O nivel de amizade foi adicionado ao contato com sucesso!";
+
+	}
+
+	/**
+	 * Lista todos os contatos que tem um estao cadastrados com o mesmo nivel de
+	 * amizade.
+	 * 
+	 * @param nivelAmizadePesquisar
+	 * @return
+	 */
+	public String contatosPorAmizade(int nivelAmizadePesquisar) {
+		if (this.listarPorAmizade(nivelAmizadePesquisar).trim().isEmpty())
+			return "Nao existem contatos com este nivel de amizade!\n"
+					+ "Informe outro nivel de amizade ou cadastre este nivel de amizade em um contato.";
+
+		return this.listarPorAmizade(nivelAmizadePesquisar).substring(0,
+				listarPorAmizade(nivelAmizadePesquisar).length() - 1);
+
+	}
+
+	/**
+	 * Cria uma String com todos os contatos com nivel de amizade em comum e retorna
+	 * essa string.
+	 * 
+	 * @param amizade
+	 * @return
+	 */
+	public String listarPorAmizade(int amizade) {
+		String contatosAmizade = "";
+		for (int i = 0; i < contatos.length; i++) {
+			if (contatos[i] == null)
+				continue;
+			if (contatos[i].getNivelAmizade() == amizade)
+				contatosAmizade += contatos[i].toString() + "\n";
+		}
+
+		return contatosAmizade;
+	}
+
+	/**
+	 * Lista todos os contatos por nome.
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	public String contatosPorNome(String nome) {
+		if (this.listarPorNome(nome).trim().equals(""))
+			return "Nao existe nenhum contato cadastrado com este nome!";
+
+		return this.listarPorNome(nome).substring(0, this.listarPorNome(nome).length() - 1);
+	}
+
+	/**
+	 * Cria uma String de todos os contatos com o mesmo nome e retorna.
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	private String listarPorNome(String nome) {
+		String contatosPorNome = "";
+		for (int i = 0; i < contatos.length; i++) {
+			if (contatos[i] == null)
+				continue;
+			if (contatos[i].getNome().equals(nome))
+				contatosPorNome += contatos[i].toString() + "\n";
+		}
+		return contatosPorNome;
+	}
+
+	/**
+	 * Verifica quantos contatos possuem o mesmo nivel de amizade.
+	 * 
+	 * @param nivelAmizade
+	 * @return
+	 */
+	public int qtdNiveisContato(int nivelAmizade) {
+		int qtdNiveis = 0;
+		for (int i = 0; i < contatos.length; i++) {
+			if (this.contatos[i] != null && contatos[i].getNivelAmizade() == nivelAmizade)
+				qtdNiveis += 1;
+		}
+		return qtdNiveis;
+	}
+
+	/**
+	 * Calcula o media dos niveis de contato. Soma de todos os niveis dividido por
+	 * quantos niveis tem cadastrado.
+	 * 
+	 * @return
+	 */
+	public double mediaAmizade() {
+		double somaNiveis = 0;
+		double qtdNiveis = 0;
+		for (int i = 0; i < contatos.length; i++) {
+			if (contatos[i] != null) {
+				somaNiveis += contatos[i].getNivelAmizade();
+				if (contatos[i].getNivelAmizade() != 0)
+					qtdNiveis += 1;
+			}
+		}
+		
+		return this.media(somaNiveis, qtdNiveis);
+	}
+
+	/**
+	 * Calcula a media e retorna esse valor.
+	 * 
+	 * @param somaNiveis
+	 * @param qtdNiveis
+	 * @return
+	 */
+	private double media(double somaNiveis, double qtdNiveis) {
+		if (qtdNiveis == 0)
+			throw new ArithmeticException("Nao eh possivel calcular a media do nivel de amizade desta agenda!\n"
+					+ "Nao existem Niveis de Amizade cadastrados.");
+
+		double media = (somaNiveis / qtdNiveis);
+		return media;
 	}
 
 	@Override
@@ -94,155 +240,16 @@ public class Agenda {
 		return result;
 	}
 
-	/*
-	 * METODO EQUALS QUE COMPARA SE DUAS AGENDAS SAO IGUAIS; VERIFICA SE O NOME E O
-	 * SOBRENOME DE CADA CONTATO CONTIDO NA AGENDA Sï¿½O IGUAIS, SE TODAS AS
-	 * POSICOES FOREM IGUAIS, ENTAO AS AGENDAS TAMBEM SAO;
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		Agenda novaAgenda = (Agenda) obj;
-		for (int i = 0; i < contatos.length; i++) {
-			if (this.contatos[i] == null)
-				continue;
-			if (!this.contatos[i].equals(novaAgenda.contatos[i])) {
-				return false;
+		if (obj instanceof Agenda) {
+			Agenda novaAgenda = (Agenda) obj;
+			for (int i = 0; i < contatos.length; i++) {
+				if (this.contatos[i] != null && !this.contatos[i].equals(novaAgenda.contatos[i])) {
+					return false;
+				}
 			}
 		}
 		return true;
-	}
-
-	// BONUS
-
-	/**
-	 * ESTE METODO CHAMA A CLASSE CONTATO E ATRAVES DO SET ATRIBUI UM NIVEL DE
-	 * AMIZADE AO CONTATO INDICADO, RECEBENDO A POSICAO DO CONTATO A ADICIONAR O
-	 * NIVEL DE AMIZADE;
-	 * 
-	 * FALTA CASOS DE TESTE;
-	 * 
-	 * @param nivelAmizade
-	 */
-	public String adicionaNivelAmizade(int posicao, int nivelAmizade) {
-		if (validaContato(posicao) == true) {
-			contatos[posicao - 1].SetNivelAmizade(nivelAmizade);
-			return "O nivel de amizade foi adicionado ao contato com sucesso!";
-		}
-		return "Nao foi possivel adicionar o nivel de amizade ao contato!\n"
-				+ "Nao existe contato na posicao informada.";
-
-	}
-
-	/**
-	 * ESTE METODO CONFERE SE O CONTATO PASSADO COMO POSICAO EXISTE 
-	 * OU NAO EXISTE;
-	 * 
-	 * @param posicao
-	 * @return TRUE SE EXISTE OU FALSE SE NAO
-	 */
-	
-	private boolean validaContato(int posicao) {
-		return contatos[posicao - 1] != null;
-	}
-
-	/**
-	 * ESTE METODO RECEBE UM NIVEL DE AMIZADE PARA PESQUISAR TODOS OS CONTATOS QUE
-	 * POSSUEM O MESMO NIVEL DE AMIZADE E RETORNA UMA STRING COM OS CONTATOS COM
-	 * ESTE INDICADOR;
-	 * 
-	 * @param nivelAmizadePesquisar
-	 * @return
-	 */
-
-	public String contatosPorAmizade(int nivelAmizadePesquisar) {
-		String contatosPorNiveisAmizade = "";
-
-		for (int i = 0; i < contatos.length; i++) {
-			
-			if (contatos[i] == null)
-				continue;
-			if (contatos[i].getNivelAmizade() == nivelAmizadePesquisar)
-				contatosPorNiveisAmizade += contatos[i].toString() + "\n";
-		}
-		
-		if (contatosPorNiveisAmizade.trim().equals(""))
-			return "Nao existem contatos com este nivel de amizade!\n"
-					+ "Informe outro nivel de amizade ou cadastre este nivel de amizade em um contato.";
-		
-		return contatosPorNiveisAmizade.substring(0, contatosPorNiveisAmizade.length() - 1);
-
-	}
-
-	/**
-	 * ESTE METODO PESQUISA NO ARRAY DE CONTATOS TODOS OS CONTATOS QUE POSSUEM O
-	 * MESMO NOME E RETORNA UMA REPRESENTACAO TEXTUAL DE TODOS ELES;
-	 * 
-	 * @param nome
-	 * @return
-	 */
-	public String contatosPorNome(String nome) {
-		String contatosPorNome = "";
-
-		for (int i = 0; i < contatos.length; i++) {
-			if (contatos[i] == null)
-				continue;
-			if (contatos[i].getNome().equals(nome))
-				contatosPorNome += contatos[i].toString() + "\n";
-		}
-		
-		if (contatosPorNome.trim().equals(""))
-			return "Nao existe nenhum contato cadastrado com este nome!";
-		
-		return contatosPorNome.substring(0, contatosPorNome.length() - 1);
-
-	}
-
-	/**
-	 * ESTE METODO PERCORRE TODOS OS CONTATOS E VERIFICAM SE QUAIS SAO OS CONTATOS
-	 * QUE POSSUEM OS MESMOS NIVEIS DE AMIZADES, SOMAM EM UMA VARIAVEL LOCAL E
-	 * RETORNAM ESTA VAR NO FIM A QUEM SOLICITOU;
-	 * 
-	 * @param nivelAmizade
-	 * @return
-	 */
-	public int qtdNiveisContato(int nivelAmizade) {
-		int qtdNiveis = 0;
-
-		for (int i = 0; i < contatos.length; i++) {
-			if (contatos[i] == null)
-				continue;
-			if (contatos[i].getNivelAmizade() == nivelAmizade)
-				qtdNiveis += 1;
-		}
-		
-		return qtdNiveis;
-	}
-
-	
-	/**
-	 * ESTE METODO PERCORRE TODOS CONTATOS DA AGENDA e ADICIONA EM UMA VAR
-	 * somaNiveis TODOS OS NIVEIS DOS CONTATOS DA AGENDA, E TAMBÉM ADICIONA EM UMA
-	 * VAR qtdNiveis QUANTOS CONTATOS POSSUEM NIVEIS, FAZ A MEDIA E RETORNA ELA;
-	 * 
-	 * @return
-	 */
-	public double mediaAmizade() {
-		double somaNiveis = 0;
-		double qtdNiveis = 0;
-
-		for (int i = 0; i < contatos.length; i++) {
-			if (contatos[i] != null) {
-				somaNiveis += contatos[i].getNivelAmizade();
-				if (contatos[i].getNivelAmizade() != 0)
-					qtdNiveis += 1;
-			}
-		}
-		
-		if (qtdNiveis == 0)
-			throw new ArithmeticException("Nao eh possivel calcular a media do nivel de amizade desta agenda!\n"
-					+ "Nao existem Niveis de Amizade cadastrados.");
-		
-		double media = (somaNiveis / qtdNiveis);
-		return media;
 	}
 }

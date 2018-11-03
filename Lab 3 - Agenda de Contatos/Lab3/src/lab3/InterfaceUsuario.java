@@ -3,6 +3,12 @@ package lab3;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Interface que se comunica com o usuario.
+ * 
+ * @author Wallyngson Guedes
+ *
+ */
 public class InterfaceUsuario {
 
 	public void start() {
@@ -11,10 +17,6 @@ public class InterfaceUsuario {
 		Scanner sc = new Scanner(System.in);
 		String entrada = "";
 
-		/**
-		 * DO WHILE QUE FUNCIONAR� PARA A INTERA��O ENTRE O USU�RIO E AS DEMAIS CLASSES
-		 * CONTIDAS NESSE PROGRAMA;
-		 */
 		do {
 
 			System.out.print("(C)adastrar Contato \n" + "(L)istar Contatos \n" + "(E)xibir Contato \n" + "(S)air \n"
@@ -25,9 +27,7 @@ public class InterfaceUsuario {
 			switch (entrada) {
 
 			/**
-			 * CASE DIGITE "C" ESTE BLOCO DEVE SER EXECUTADO; RESPONSAVEL POR CADASTRAR OS
-			 * CONTATOS EM UMA POSICAO, CADASTRANDO O CONTATO COM NOME, SOBRENOME E
-			 * TELEFONE;
+			 * Caso digite "c" deve cadastrar um contato.
 			 */
 			case "c":
 
@@ -48,11 +48,6 @@ public class InterfaceUsuario {
 
 					System.out.println(agenda.cadastraContato(posicao, nome, sobrenome, telefone));
 
-					/**
-					 * EXCEPTION, SE O USU�RIO N�O INFORMAR O NOME, O SOBRENOME, TELEFONE OU ENT�O
-					 * TENTAR CADASTRAR O CONTATO EM UMA POSI��O INV�LIDA, IREMOS CAPTURAR AS
-					 * EXCE��ES E TRATA-LAS;
-					 */
 				} catch (NullPointerException nulo) {
 					System.err.println(nulo.getMessage());
 
@@ -66,8 +61,7 @@ public class InterfaceUsuario {
 				break;
 
 			/**
-			 * CASO DIGITE "E" ESTE BLOCO DEVE SER EXECUTADO; EXIBE AO USUARIO OS CONTATOS
-			 * CADASTRADOS EM UMA DETERMINADA POSI��O FORNECIDA PELO USU�RIO;
+			 * s Digitando "e" deve-se exibir um contato.
 			 */
 			case "e":
 				try {
@@ -80,11 +74,6 @@ public class InterfaceUsuario {
 
 					break;
 
-					/**
-					 * EXCEPTION, SE O USU�RIO DIGITAR UMA POSI��O INV�LIDA OU N�O TIVER NENHUM
-					 * CONTATO CADASTRADO NA POSI��O INFORMADA DEVEMOS ENT�O CAPTURAR AS EXCE��ES E
-					 * TRATA-LAS;
-					 */
 				} catch (NoSuchElementException posicaoInvalida) {
 					System.err.println(posicaoInvalida.getMessage());
 
@@ -95,8 +84,7 @@ public class InterfaceUsuario {
 				break;
 
 			/**
-			 * CASO DIGITE "L" ESTE BLOCO DEVE SER EXECUTADO; EXIBE UMA LISTA LINHA A LINHA
-			 * COM TODOS OS CONTATOS CADASTRADOS NA AGENDA;
+			 * Digintando "l" deve-se listar todos os contatos.
 			 */
 			case "l":
 				try {
@@ -104,10 +92,6 @@ public class InterfaceUsuario {
 					System.out.println(System.lineSeparator() + agenda.listarContatos());
 					break;
 
-					/**
-					 * EXCEPTION, CASO O N�O HAJA NENHUM CONTATO CADASTRADO NA AGENDA, DEVEMOS
-					 * CAPTURAR E TRATAR AS EXCE��ES;
-					 */
 				} catch (IllegalArgumentException argumentoIlegal) {
 					System.err.println(argumentoIlegal.getMessage());
 
@@ -115,18 +99,17 @@ public class InterfaceUsuario {
 				break;
 
 			/**
-			 * CASO DIGITE "S" ESTE BLOCO DEVE SER EXECUTADO; SAIR� DO SWITCH E QUEBRAR� O
-			 * DO WHILE;
+			 * Caso digite "s" deve se sair do programa.
 			 */
 			case "s":
 				System.exit(0);
 				break;
 
 			/**
-			 * SE DIGITAR QUALQUER OUTRA LETRA, IMPRIMIR� ESTA MENSAGEM;
+			 * Qualquer outra letra digitada deve gerar um erro. 
 			 */
 			default:
-				System.out.print("OP��O INV�LIDA!" + System.lineSeparator());
+				System.out.print("Opcao Invalida!" + System.lineSeparator());
 				break;
 			}
 			sc.nextLine();
