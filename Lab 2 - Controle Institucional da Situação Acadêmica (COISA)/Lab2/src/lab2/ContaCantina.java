@@ -1,9 +1,10 @@
 package lab2;
 
+import java.util.Arrays;
+
 /**
  * 
- * Representaco de uma cantina de uma universidade onde o estudante come e
- * possui uma conta que acumula seus debitos e realiza pagamentos.
+ * Classe que representa uma conta que aluno faz em uma cantina.
  * 
  * @author Wallyngson Guedes
  * 
@@ -66,9 +67,8 @@ public class ContaCantina {
 		return this.contaPagar;
 	}
 
-	@Override
-	public String toString() {
-		return this.nomeCantina + " " + this.itensConsumidos + " " + this.valorTotal;
+	public String getNome() {
+		return this.nomeCantina;
 	}
 	
 	/**
@@ -108,8 +108,33 @@ public class ContaCantina {
 		
 		detalhes[4] = detalhe;
 		}
-		
-		
+	
+	@Override
+	public String toString() {
+		return this.nomeCantina + " " + this.itensConsumidos + " " + this.valorTotal;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + contaPagar;
+		result = prime * result + Arrays.hashCode(detalhes);
+		result = prime * result + itensConsumidos;
+		result = prime * result + ((nomeCantina == null) ? 0 : nomeCantina.hashCode());
+		result = prime * result + valorTotal;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ContaCantina) {
+			ContaCantina nova = (ContaCantina) obj;
+			return this.getNome().equals(nova.getNome());
+		}
+		return false;
+	}
+	
 }
 	
 

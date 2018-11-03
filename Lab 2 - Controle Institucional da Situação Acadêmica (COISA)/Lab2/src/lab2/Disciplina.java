@@ -18,7 +18,7 @@ public class Disciplina {
 	private double media;
 	private int[] pesoNotas = null;
 	private int[] notasBonus;
-	
+
 	public Disciplina(String nomeDisciplina) {
 		this.disciplina = nomeDisciplina;
 		this.notas = new double[4];
@@ -75,9 +75,8 @@ public class Disciplina {
 		return false;
 	}
 
-	@Override
-	public String toString() {
-		return this.disciplina + " " + this.horasEstudadas + " " + this.media + " " + Arrays.toString(notas);
+	public String getDisciplina() {
+		return this.disciplina;
 	}
 
 	/**
@@ -88,7 +87,7 @@ public class Disciplina {
 	 */
 	public void cadastraNota(int posicaoNota, int valorNota) {
 		this.notasBonus[posicaoNota - 1] = valorNota;
-		
+
 	}
 
 	/**
@@ -98,20 +97,21 @@ public class Disciplina {
 	 */
 	private int mediaPonderada() {
 		int media = 0;
-		
+
 		for (int i = 0; i < notasBonus.length; i++) {
 			media += notasBonus[i] * pesoNotas[i];
 		}
-		
+
 		int mediaPonderada = (media / 10);
 		return mediaPonderada;
 	}
-	
+
 	/**
-	 * METODO PARA RETORNAR VALORES
+	 * Calcula media especial.
+	 * 
 	 * @return
 	 */
-	public int mediaBonus() {
+	public int mediaEspecial() {
 		return this.calculaMediaEspecial();
 
 	}
@@ -126,24 +126,52 @@ public class Disciplina {
 		for (int i : notasBonus) {
 			media += i;
 		}
-		
+
 		int mediaPonderada = (media / this.numNotas);
 		return mediaPonderada;
 	}
-	
+
 	/**
 	 * Calcula medias ponderadas com peso e sem peso nas notas.
 	 * 
 	 * @return
 	 */
 	private int calculaMediaEspecial() {
-		if(pesoNotas == null) 
+		if (pesoNotas == null)
 			return mediaSemPesos();
 		else
 			return mediaPonderada();
 	}
-			
-	
-}
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((disciplina == null) ? 0 : disciplina.hashCode());
+		result = prime * result + horasEstudadas;
+		long temp;
+		temp = Double.doubleToLongBits(media);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + Arrays.hashCode(notas);
+		result = prime * result + Arrays.hashCode(notasBonus);
+		result = prime * result + numNotas;
+		result = prime * result + Arrays.hashCode(pesoNotas);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Disciplina) {
+			Disciplina novaDisciplina = (Disciplina) obj;
+			return this.getDisciplina().equals(novaDisciplina.getDisciplina());
+		}
+
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return this.disciplina + " " + this.horasEstudadas + " " + this.media + " " + Arrays.toString(notas);
+	}
+
+}
