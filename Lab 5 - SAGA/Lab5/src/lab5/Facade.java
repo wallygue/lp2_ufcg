@@ -1,8 +1,16 @@
 package lab5;
 
+import easyaccept.EasyAccept;
+
 public class Facade {
 
 	private ControllerSaga controller;
+
+	public static void main(String[] args) {
+		args = new String[] { "lab5.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
+				"acceptance_test/use_case_3.txt" };
+		EasyAccept.main(args);
+	}
 
 	public Facade() {
 		controller = new ControllerSaga();
@@ -10,68 +18,73 @@ public class Facade {
 
 	// CLIENTE
 
-	public String cadastrarCliente(String cpf, String nome, String email, String localizacao) {
-		return this.controller.cadastrarCliente(cpf, nome, email, localizacao);
+	public String adicionaCliente(String cpf, String nome, String email, String localizacao) {
+		return this.controller.adicionaCliente(cpf, nome, email, localizacao);
 
 	}
 
-	public String retornaCliente(String cpf) {
-		return this.controller.retornaCliente(cpf);
+	public String exibeCliente(String cpf) {
+		return this.controller.exibeCliente(cpf);
+
 	}
 
-	public String listarClientes() {
-		return this.controller.listarClientes();
+	public void editaCliente(String cpf, String atributo, String novoValor) {
+		this.controller.editaCliente(cpf, atributo, novoValor);
 	}
 
-	public String editarCliente(String cpf, String nome, String email, String localizacao) {
-		return this.controller.editarCliente(cpf, nome, email, localizacao);
+	public void removeCliente(String cpf) {
+		this.controller.removeCliente(cpf);
 	}
 
-	public String removerCliente(String cpf) {
-		return this.controller.removerCliente(cpf);
+	public String exibeClientes() {
+		return this.controller.exibeClientes();
 	}
 
 	// FORNECEDOR
 
-	public String cadastrarFornecedor(String nome, String email, String telefone) {
-		return this.controller.cadastrarFornecedor(nome, email, telefone);
+	public String adicionaFornecedor(String nome, String email, String telefone) {
+		return this.controller.adicionaFornecedor(nome, email, telefone);
 	}
 
-	public String retornarFornecedor(String nome) {
-		return this.controller.retornaFornecedor(nome);
+	public String exibeFornecedor(String nome) {
+		return this.controller.exibeFornecedor(nome);
 	}
 
-	public String listarFornecedores() {
-		return this.controller.listarFornecedores();
+	public String exibeFornecedores() {
+		return this.controller.exibeFornecedores();
 	}
 
-	public String editarFornecedor(String nome, String email, String telefone) {
-		return this.editarFornecedor(nome, email, telefone);
+	public void editaFornecedor(String nome, String atributo, String novoValor) {
+		this.editaFornecedor(nome, atributo, novoValor);
 	}
 
-	public String removerFornecedor(String nome) {
-		return this.removerFornecedor(nome);
+	public void removeFornecedor(String nome) {
+		this.removeFornecedor(nome);
 	}
 
 	// PRODUTO
 
-	public String adicionarProduto(String fornecedor, String nomeProduto, String descricao, String preco) {
-		return this.controller.adicionarProduto(fornecedor, nomeProduto, descricao, preco);
+	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, float preco) {
+		this.controller.adicionaProduto(fornecedor, nomeProduto, descricao, preco);
 	}
 
-	public String retornaProduto(String fornecedor, String nomeProduto, String descricao) {
-		return this.controller.retornaProduto(fornecedor, nomeProduto, descricao);
+	public String exibeProduto(String nomeProduto, String descricao, String fornecedor) {
+		return this.controller.exibeProduto(nomeProduto, descricao, fornecedor);
 	}
 
-	public String editarPreco(String fornecedor, String nomeProduto, String descricao, String preco) {
-		return this.controller.editarPreco(fornecedor, nomeProduto, descricao, preco);
+	public void editaProduto(String nomeProduto, String descricao, String fornecedor, double novoPreco) {
+		this.controller.editaPreco(nomeProduto, descricao, fornecedor, novoPreco);
 	}
 
-//	public String listarProdutos() {
-//		return this.controller.listarProdutos();
-//	}
+	public String exibeProdutos() {
+		return this.controller.exibeProdutos();
+	}
 
-	public String listarProdutosDeUmFornecedor(String fornecedor) {
-		return this.controller.listarProdutosDeUmFornecedor(fornecedor);
+	public String exibeProdutosFornecedor(String fornecedor) {
+		return this.controller.exibeProdutosFornecedor(fornecedor);
+	}
+
+	public void removeProduto(String nome, String descricao, String fornecedor) {
+		this.controller.removeProduto(nome, descricao, fornecedor);
 	}
 }

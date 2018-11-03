@@ -14,38 +14,48 @@ public class Cliente implements Comparable<Cliente> {
 	private String localizacao;
 
 	public Cliente(String cpf, String nome, String email, String localizacao) {
-		this.cpfErrado(cpf);
-		this.parametroErrado( nome, email, localizacao);
+		this.parametrosValidos( nome, email, localizacao);
 
 		this.cpf = cpf;
 		this.nome = nome;
 		this.email = email;
 		this.localizacao = localizacao;
 	}
+	
+	/**
+	 * Verifica se os parametros sao validos.
+	 * 
+	 * @param nome
+	 * @param email
+	 * @param localizacao
+	 */
+	private void parametrosValidos(String nome, String email, String localizacao) {
+		if (nome.isEmpty() || nome == null)
+			throw new IllegalArgumentException("nome nao pode ser vazio ou nulo.");
+		if (email.isEmpty() || email == null)
+			throw new IllegalArgumentException("email nao pode ser vazio ou nulo.");
+		if(localizacao.isEmpty() || localizacao == null)
+			throw new IllegalArgumentException("localizacao nao pode ser vazia ou nula.");
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+	
 	public String getCPF() {
 		return this.cpf;
 	}
 
 	public String getNome() {
 		return this.nome;
-	}
-
-	/**
-	 * Edita as informacoes do cliente, como seu nome, email e localizacao.
-	 * 
-	 * @param nome
-	 * @param email
-	 * @param localizacao
-	 * @return
-	 */
-	public String editarCliente(String nome, String email, String localizacao) {
-		this.parametroErrado(nome, email, localizacao);
-
-		this.nome = nome;
-		this.email = email;
-		this.localizacao = localizacao;
-		return "Cliente editado com sucesso!";
 	}
 
 	@Override
@@ -77,20 +87,6 @@ public class Cliente implements Comparable<Cliente> {
 	public int compareTo(Cliente c1) {
 		return this.getNome().compareTo(c1.getNome());
 
-	}
-
-	private void parametroErrado(String nome, String email, String localizacao) {
-		if (nome == null || email == null || localizacao == null)
-			throw new NullPointerException("Algum ou todos os parametros sao nulos, por favor digite novamente.");
-		if (nome.equals("") || email.equals("") || localizacao.equals(""))
-			throw new IllegalArgumentException("Algum ou todos os parametros sao vazios, por favor digite novamente.");
-	}
-	
-	private void cpfErrado(String cpf) {
-		if (cpf == null)
-			throw new  NullPointerException();
-		if (cpf.equals(""))
-			throw new  IllegalArgumentException();
 	}
 
 }

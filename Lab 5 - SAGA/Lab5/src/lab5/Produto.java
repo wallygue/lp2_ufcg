@@ -10,14 +10,28 @@ public class Produto implements Comparable<Produto> {
 
 	private String nome;
 	private String descricao;
-	private String preco;
+	private double preco;
 
-	public Produto(String nome, String descricao, String preco) {
-		this.parametroErrado(nome, descricao, preco);
+	public Produto(String nome, String descricao, double preco) {
+		this.parametroInvalido(descricao, preco);
 
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
+	}
+	
+	/**
+	 * Verifica se os parametros sao vazios ou nulos.
+	 * 
+	 * @param nome
+	 * @param descricao
+	 * @param preco
+	 */
+	private void parametroInvalido(String descricao, double preco) {
+		if (descricao.trim().isEmpty() || descricao == null)
+			throw new IllegalArgumentException("descricao nao pode ser vazia ou nula.");
+		if (preco <= 0)
+			throw new IllegalArgumentException("preco invalido.");
 	}
 	
 	public Produto(String nome, String descricao) {
@@ -25,6 +39,10 @@ public class Produto implements Comparable<Produto> {
 		this.descricao = descricao;
 	}
 
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
+	
 	public String getNome() {
 		return this.nome;
 	}
@@ -48,7 +66,7 @@ public class Produto implements Comparable<Produto> {
 	 * @param preco
 	 * @return
 	 */
-	public String alteraPreco(String preco) {
+	public String alteraPreco(double preco) {
 		this.validaPreco(preco);
 
 		this.preco = preco;
@@ -61,22 +79,11 @@ public class Produto implements Comparable<Produto> {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((preco == null) ? 0 : preco.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Produto) {
 			Produto novoProduto = (Produto) obj;
 			return this.formataFrase(this.nomeCompleto()).equals(formataFrase(novoProduto.nomeCompleto()));
 		}
-
 		return false;
 	}
 
@@ -91,28 +98,12 @@ public class Produto implements Comparable<Produto> {
 	}
 
 	/**
-	 * Verifica se o preco eh vazio ou nulo.
+	 * Verifica se o preco menor ou igual a zero.
 	 * 
 	 * @param preco
 	 */
-	private void validaPreco(String preco) {
-		if (preco == null)
-			throw new NullPointerException();
-		if (preco.equals(""))
-			throw new IllegalArgumentException();
-	}
-
-	/**
-	 * Verifica se os parametros sao vazios ou nulos.
-	 * 
-	 * @param nome
-	 * @param descricao
-	 * @param preco
-	 */
-	private void parametroErrado(String nome, String descricao, String preco) {
-		if (nome == null || descricao == null || preco == null)
-			throw new NullPointerException();
-		if (nome.equals("") || descricao.equals("") || preco.equals(""))
+	private void validaPreco(double preco) {
+		if (preco <= 0)
 			throw new IllegalArgumentException();
 	}
 

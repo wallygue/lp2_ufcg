@@ -18,8 +18,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private List<Produto> produtos;
 
 	public Fornecedor(String nome, String email, String telefone) {
-		this.nomeInvalido(nome);
-		this.parametroErrado(email, telefone);
+		this.parametrosInvalidos(email, telefone);
 
 		this.nome = nome;
 		this.email = email;
@@ -28,6 +27,19 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	}
 
 	/**
+	 * Verifica se o email e o telefone sao invalidos.
+	 * 
+	 * @param email
+	 * @param telefone
+	 */
+	private void parametrosInvalidos(String email, String telefone) {
+		if (email.trim().isEmpty() || email == null)
+			throw new IllegalArgumentException("email nao pode ser vazio ou nulo.");
+		if(telefone.trim().isEmpty() || telefone == null)
+			throw new IllegalArgumentException("telefone nao pode ser vazio ou nulo.");
+	}
+	
+	/**
 	 * Edita os parametros do fornecedor.
 	 * 
 	 * @param email
@@ -35,7 +47,6 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @return
 	 */
 	public String editarFornecedor(String email, String telefone) {
-		this.parametroErrado(email, telefone);
 
 		this.email = email;
 		this.telefone = telefone;
@@ -47,6 +58,15 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	public String getNome() {
 		return this.nome;
 	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	
 
 	/**
 	 * Cadastra um produto do fornecedor.
@@ -56,15 +76,39 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param preco
 	 * @return
 	 */
-	public String cadastrarProduto(String nomeProduto, String descricao, String preco) {
-		if (validaProduto(nomeProduto, descricao) == null) {
-			this.produtos.add(new Produto(nomeProduto, descricao, preco));
-			return "Produto cadastrado com sucesso!";
-		}
-
-		return "Produto ja cadastrado!";
+	public void adicionaProduto(String nomeProduto, String descricao, float preco) {
+		this.nomeProdutoInvalido(nomeProduto, descricao);
+		this.validaProduto(nomeProduto, descricao);
+		
+		this.produtos.add(new Produto(nomeProduto, descricao, preco));
 	}
-
+	
+	/**
+	 * Verifica se o nome do produto eh invalido.
+	 * 
+	 * @param nome
+	 */
+	private void nomeProdutoInvalido(String nome, String descricao) {
+		if (nome.trim().isEmpty() || nome == null)
+			throw new IllegalArgumentException("nome nao pode ser vazio ou nulo.");
+		if (descricao.trim().isEmpty() || descricao == null)
+			throw new IllegalArgumentException("descricao nao pode ser vazia ou nula.");
+	}
+	
+	/**
+	 * Valida se o produto esta ou nao cadastrado.
+	 * 
+	 * @param nomeProduto
+	 * @param descricao
+	 * @return
+	 */
+	private void validaProduto(String nomeProduto, String descricao) {
+		for (Produto produto : produtos) {
+			if (produto != null && produto.equals(new Produto(nomeProduto, descricao)))
+				throw new IllegalArgumentException("produto ja existe.");
+		}
+	}
+	
 	/**
 	 * Pesquisa o produto passado por parametro e retorna uma representacao textual
 	 * do produto.
@@ -73,13 +117,24 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param descricao
 	 * @return
 	 */
-	public String retornaProduto(String nomeProduto, String descricao) {
-		this.parametroErrado(nomeProduto, descricao);
-		
-		if (validaProduto(nomeProduto, descricao) == null)
-			return "Produto nao cadastrado!";
-
-		return validaProduto(nomeProduto, descricao).toString();
+	public String exibeProduto(String nomeProduto, String descricao) {
+		this.nomeProdutoInvalido(nomeProduto, descricao);
+		return this.exibe(nomeProduto, descricao).toString();
+	}
+	
+	/**
+	 * Verifica se o produto existe e o retorna.
+	 * 
+	 * @param nomeProduto
+	 * @param descricao
+	 * @return
+	 */
+	private Produto exibe(String nomeProduto, String descricao) {
+		for (Produto produto : produtos) {
+			if (produto != null && produto.equals(new Produto(nomeProduto, descricao)))
+				return produto;
+		}
+		throw new IllegalArgumentException("produto nao existe.");
 	}
 
 	/**
@@ -90,18 +145,14 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param preco
 	 * @return
 	 */
-	public String editarPreco(String nomeProduto, String descricao, String preco) {
-		this.parametroErrado(nomeProduto, descricao);
+	public void editaPreco(String nomeProduto, String descricao, double preco) {
+		this.nomeProdutoInvalido(nomeProduto, descricao);
+		this.exibe(nomeProduto, descricao).setPreco(preco);
 		
-		if (validaProduto(nomeProduto, descricao) == null)
-			return "Produto nao cadastrado!";
-
-		return this.validaProduto(nomeProduto, descricao).alteraPreco(preco);
-
 	}
 
 	/**
-	 * Lista todos os produtos que o fornecedor vende.
+	 * Lista todos os produtos do fornecedor.
 	 * 
 	 * @return
 	 */
@@ -129,6 +180,16 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		return listaProdutos;
 	}
 
+	/**
+	 * Remove um produto.
+	 * @param nome
+	 * @param descricao
+	 */
+	public void removeProduto(String nome, String descricao) {
+		this.nomeProdutoInvalido(nome, descricao);
+		this.produtos.remove(this.exibe(nome, descricao));
+	}
+	
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.email + " - " + this.telefone;
@@ -154,51 +215,9 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		return false;
 	}
 
-	/**
-	 * Valida se o produto esta ou nao cadastrado.
-	 * 
-	 * @param nomeProduto
-	 * @param descricao
-	 * @return
-	 */
-	private Produto validaProduto(String nomeProduto, String descricao) {
-		for (Produto produto : produtos) {
-			if (produto != null && produto.equals(new Produto(nomeProduto, descricao)))
-				return produto;
-		}
-
-		return null;
-	}
-
 	@Override
 	public int compareTo(Fornecedor f2) {
 		return this.getNome().compareTo(f2.getNome());
-	}
-
-	/**
-	 * Verifica se os parametros passados sao nulos ou invalidos.
-	 * 
-	 * @param arg1
-	 * @param arg2
-	 */
-	private void parametroErrado(String arg1, String arg2) {
-		if (arg1 == null || arg2 == null)
-			throw new NullPointerException();
-
-		if (arg1.equals("") || arg2.equals(""))
-			throw new IllegalArgumentException();
-	}
-
-	/**
-	 * Verifica se o nome do produto eh invalido ou nulo.
-	 * 
-	 * @param nome
-	 */
-	private void nomeInvalido(String nome) {
-		if (nome == null)
-			throw new NullPointerException();
-		if (nome.equals(""))
-			throw new IllegalArgumentException();
 	}
 
 }

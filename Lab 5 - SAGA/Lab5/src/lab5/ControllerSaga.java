@@ -26,56 +26,131 @@ public class ControllerSaga {
 	// CLIENTES
 
 	/**
-	 * Metodo responsavel por cadastrar Clientes.
+	 * Metodo responsavel por adicionar Clientes.
 	 * 
 	 * @param cpf
 	 * @param nome
 	 * @param email
 	 * @param localizacao
 	 * 
-	 * @return se o cliente ou nao criado;
+	 * @return
 	 */
-	public String cadastrarCliente(String cpf, String nome, String email, String localizacao) {
-		this.parametroInvalido(cpf);
+	public String adicionaCliente(String cpf, String nome, String email, String localizacao) {
+		try {
+			this.cpfInvalido(cpf);
+			this.validaCliente(cpf);
 
-		if (this.validaCliente(cpf))
-			return "Cliente ja esta cadastrado no sistema!";
+			this.clientes.put(cpf, new Cliente(cpf, nome, email, localizacao));
+			return cpf;
 
-		this.clientes.put(cpf, new Cliente(cpf, nome, email, localizacao));
-		return "Cliente cadastrado com sucesso!";
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: " + iae.getMessage());
+		}
 
 	}
 
 	/**
-	 * Este metodo retorna o cliente solicitado atraves de sua chave.
+	 * Verifica se o CPF eh valido.
 	 * 
 	 * @param cpf
-	 * @return cliente ou uma mensagem informando que ele nao existe;
 	 */
-	public String retornaCliente(String cpf) {
-		this.parametroInvalido(cpf);
+	private void cpfInvalido(String cpf) {
+		if (cpf.replace(" ", "").length() != 11)
+			throw new IllegalArgumentException("cpf invalido.");
+	}
 
-		if (validaCliente(cpf))
+	/**
+	 * Verifica se o cliente existe.
+	 * 
+	 * @param cpf
+	 */
+	private void validaCliente(String cpf) {
+		if (this.clientes.containsKey(cpf))
+			throw new IllegalArgumentException("cliente ja existe.");
+	}
+
+	/**
+	 * Exibe cliente atraves do seu cpf.
+	 * 
+	 * @param cpf
+	 * @return
+	 */
+	public String exibeCliente(String cpf) {
+		try {
+			this.cpfInvalido(cpf);
+			this.clienteInexistente(cpf);
+
 			return this.clientes.get(cpf).toString();
-		return "Este cliente nao esta cadastrado no sistema!";
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na exibicao do cliente: " + iae.getMessage());
+		}
 
 	}
 
 	/**
-	 * Este metodo edita os atributos do cliente solicitado atraves do seu CPF.
+	 * Verifica se o cliente nao existe.
+	 * 
+	 * @param cpf
+	 */
+	private void clienteInexistente(String cpf) {
+		if (this.clientes.containsKey(cpf) == false)
+			throw new IllegalArgumentException("cliente nao existe.");
+	}
+
+	/**
+	 * Edita o valor do cliente atraves do seu CPF e o atributo a ser mudado.
 	 * 
 	 * @param cpf
 	 * @param nome
 	 * @param email
 	 * @param localizacao
-	 * @return se o cliente foi ou nao editado;
+	 * @return
 	 */
-	public String editarCliente(String cpf, String nome, String email, String localizacao) {
-		this.parametroInvalido(cpf);
+	public void editaCliente(String cpf, String atributo, String novoValor) {
+		try {
+			this.cpfInvalido(cpf);
+			this.clienteInexistente(cpf);
 
-		if (validaCliente(cpf))
-			return this.clientes.get(cpf).editarCliente(nome, email, localizacao);
-		return "Cliente nao cadastrado no sistema!";
+			this.editar(cpf, atributo, novoValor);
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na edicao do cliente: " + iae.getMessage());
+		}
+	}
+
+	/**
+	 * Edita o cliente passado por parametro.
+	 * 
+	 * @param cpf
+	 * @param atributo
+	 * @param novoValor
+	 */
+	private void editar(String cpf, String atributo, String novoValor) {
+		this.valoresInvalidos(atributo, novoValor);
+
+		if (atributo.equals("nome"))
+			this.clientes.get(cpf).setNome(novoValor);
+		if (atributo.equals("email"))
+			this.clientes.get(cpf).setEmail(novoValor);
+		if (atributo.equals("localizacao"))
+			this.clientes.get(cpf).setLocalizacao(novoValor);
+		if (!atributo.equals("nome") && !atributo.equals("email") && !atributo.equals("localizacao"))
+			throw new IllegalArgumentException("atributo nao existe.");
+	}
+
+	/**
+	 * Verifica se os atributos e os novos valores sao validos.
+	 * 
+	 * @param atributo
+	 * @param novoValor
+	 */
+	private void valoresInvalidos(String atributo, String novoValor) {
+		if (atributo.isEmpty() || atributo == null)
+			throw new IllegalArgumentException("atributo nao pode ser vazio ou nulo.");
+		if (novoValor.isEmpty() || novoValor == null)
+			throw new IllegalArgumentException("novo valor nao pode ser vazio ou nulo.");
+
 	}
 
 	/**
@@ -84,39 +159,44 @@ public class ControllerSaga {
 	 * @param cpf
 	 * @return se o cliente foi ou nao removido;
 	 */
-	public String removerCliente(String cpf) {
-		this.parametroInvalido(cpf);
+	public void removeCliente(String cpf) {
+		try {
+			this.cpfInvalido(cpf);
+			this.clienteInexistente(cpf);
 
-		if (this.validaCliente(cpf)) {
 			this.clientes.remove(cpf);
-			return "Cliente removido com sucesso!";
-		}
 
-		return "Cliente nao cadastrado no sistema!";
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro ao remover cliente: " + iae.getMessage());
+		}
 	}
 
 	/**
-	 * Este metodo coloca todos os valores de Clientes(Map) em uma List e ordena
-	 * pelo nome do cliente.
+	 * Lista todos os clientes cadastrados no sistema.
 	 * 
-	 * @return lista com os clientes;
+	 * @return
 	 */
-	public String listarClientes() {
-		if (this.clientes.size() == 0)
-			return "Nao existe nenhum cliente cadastrado nesse sistema.";
+	public String exibeClientes() {
+		try {
+			if (this.clientes.size() == 0)
+				throw new IllegalArgumentException("nenhum cliente cadastrado.");
 
-		List<Cliente> listaClientes = new ArrayList<Cliente>(clientes.values());
-		Collections.sort(listaClientes);
+			List<Cliente> listaClientes = new ArrayList<Cliente>(clientes.values());
+			Collections.sort(listaClientes);
 
-		return this.listaDosClientes(listaClientes);
+			return this.listaDosClientes(listaClientes);
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na exibicao dos clientes: " + iae.getMessage());
+		}
 	}
 
-	private boolean validaCliente(String cpf) {
-		if (this.clientes.containsKey(cpf))
-			return true;
-		return false;
-	}
-
+	/**
+	 * Cria uma String com todos os clientes e a retorna.
+	 * 
+	 * @param listaClientes
+	 * @return
+	 */
 	private String listaDosClientes(List<Cliente> listaClientes) {
 		String clientes = "";
 
@@ -130,94 +210,101 @@ public class ControllerSaga {
 	// FORNECEDOR
 
 	/**
-	 * Metodo responsavel por cadastrar um fornecedor no sistema.
+	 * Metodo responsavel por adicionar um fornecedor no sistema.
 	 * 
 	 * @param nome
 	 * @param email
 	 * @param telefone
 	 * @return se o fornecedor ou nao criado;
 	 */
-	public String cadastrarFornecedor(String nome, String email, String telefone) {
-		this.parametroInvalido(nome);
+	public String adicionaFornecedor(String nome, String email, String telefone) {
+		try {
+			this.nomeInvalido(nome);
+			this.validaFornecedor(nome);
 
-		if (this.validaFornecedor(nome))
-			return "Fornecedor ja esta cadastrado no sistema!";
-
-		this.fornecedores.put(nome, new Fornecedor(nome, email, telefone));
-		return "Fornecedor cadastrado com sucesso!";
-
-	}
-
-	/**
-	 * Este metodo retorna um fornecedor passado como parametro.
-	 * 
-	 * @param nome
-	 * @return se o fornecedor existe ou nao;
-	 */
-	public String retornaFornecedor(String nome) {
-		this.parametroInvalido(nome);
-
-		if (validaFornecedor(nome))
-			return this.fornecedores.get(nome).toString();
-		return "Fornecedor nao esta cadastrado no sistema!";
-
-	}
-
-	/**
-	 * Este metodo retorna todos os fornecedores cadastrados no sistema por ordem
-	 * alfabetica.
-	 * 
-	 * @return todos os fornecedores ou se nao existe nenhum;
-	 */
-	public String listarFornecedores() {
-		if (fornecedores.size() == 0)
-			return "Nao existe nenhum fornecedor cadastrado no sistema.";
-
-		List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>(fornecedores.values());
-		Collections.sort(listaFornecedor);
-
-		return this.listaDeFornecedores(listaFornecedor);
-	}
-
-	/**
-	 * Este metodo edita os atributos de um fornecedor.
-	 * 
-	 * @param nome
-	 * @param email
-	 * @param telefone
-	 * @return se o fornecedor foi ou nao editado;
-	 */
-	public String editarFornecedor(String nome, String email, String telefone) {
-		this.parametroInvalido(nome);
-
-		if (validaFornecedor(nome))
-			return this.fornecedores.get(nome).editarFornecedor(email, telefone);
-		return "Fornecedor nao cadastrado no sistema!";
-	}
-
-	/**
-	 * Este metodo remove um fornecedor do sistema atraves do seu nome.
-	 * 
-	 * @param nome
-	 * @return se foi ou nao possivel remove-lo;
-	 */
-	public String removerFornecedor(String nome) {
-		this.parametroInvalido(nome);
-
-		if (this.validaFornecedor(nome)) {
-			this.fornecedores.remove(nome);
-			return "Fornecedor removido com sucesso!";
+			this.fornecedores.put(nome, new Fornecedor(nome, email, telefone));
+			return nome;
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro no cadastro do fornecedor: " + iae.getMessage());
 		}
-
-		return "Fornecedor nao cadastrado no sistema!";
 	}
 
-	private boolean validaFornecedor(String nome) {
+	/**
+	 * Verifica se o fornecedor existe.
+	 * 
+	 * @param nome
+	 */
+	private void validaFornecedor(String nome) {
 		if (this.fornecedores.containsKey(nome))
-			return true;
-		return false;
+			throw new IllegalArgumentException("fornecedor ja existe.");
+
 	}
 
+	/**
+	 * Verifica se o nome eh invalido.
+	 * 
+	 * @param nome
+	 */
+	private void nomeInvalido(String nome) {
+		if (nome.trim().isEmpty() || nome == null)
+			throw new IllegalArgumentException("nome nao pode ser vazio ou nulo.");
+
+	}
+
+	/**
+	 * Exibe um fornecedor cadastrado.
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	public String exibeFornecedor(String nome) {
+		try {
+			this.nomeInvalido(nome);
+			this.fornecedorInexistente(nome);
+
+			return this.fornecedores.get(nome).toString();
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na exibicao do fornecedor: " + iae.getMessage());
+		}
+	}
+
+	/**
+	 * Verifica se o fornecedor nao existe.
+	 * 
+	 * @param nome
+	 */
+	private void fornecedorInexistente(String nome) {
+		if (this.fornecedores.containsKey(nome) == false)
+			throw new IllegalArgumentException("fornecedor nao existe.");
+
+	}
+
+	/**
+	 * Exibe todos os fornecederes cadastrados no sistema.
+	 * 
+	 * @return
+	 */
+	public String exibeFornecedores() {
+		try {
+			if (fornecedores.size() == 0)
+				throw new IllegalArgumentException("nenhum fornecedor cadastrado.");
+
+			List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>(fornecedores.values());
+			Collections.sort(listaFornecedor);
+			return this.listaDeFornecedores(listaFornecedor);
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na exibicao dos fornecedores: " + iae.getMessage());
+		}
+	}
+
+	/**
+	 * Cria uma String com todos os fornecedores cadastrados e a retorna.
+	 * 
+	 * @param listaFornecedor
+	 * @return
+	 */
 	private String listaDeFornecedores(List<Fornecedor> listaFornecedor) {
 		String fornecedores = "";
 
@@ -226,6 +313,75 @@ public class ControllerSaga {
 		}
 
 		return fornecedores.substring(0, fornecedores.length() - 3);
+	}
+
+	/**
+	 * Edita o fornecedor passado como parametro.
+	 * 
+	 * @param nome
+	 * @param email
+	 * @param telefone
+	 * @return
+	 */
+	public void editarFornecedor(String nome, String atributo, String novoValor) {
+		try {
+			this.nomeInvalido(nome);
+			this.fornecedorInexistente(nome);
+
+			this.editarF(nome, atributo, novoValor);
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na edicao do fornecedor: " + iae.getMessage());
+		}
+	}
+
+	/**
+	 * Edita o email e o telefone.
+	 * 
+	 * @param nome
+	 * @param atributo
+	 * @param novoValor
+	 */
+	private void editarF(String nome, String atributo, String novoValor) {
+		this.valoresInvalidos(atributo, novoValor);
+		this.nomeFornecedor(nome, atributo, novoValor);
+
+		if (atributo.equals("email"))
+			this.fornecedores.get(nome).setEmail(novoValor);
+		if (atributo.equals("telefone"))
+			this.fornecedores.get(nome).setTelefone(novoValor);
+	}
+
+	/**
+	 * Verifica se os atributos passados sao corretos.
+	 * 
+	 * @param nome
+	 * @param atributo
+	 * @param novoValor
+	 */
+	private void nomeFornecedor(String nome, String atributo, String novoValor) {
+		if (atributo.equals("nome"))
+			throw new IllegalArgumentException("nome nao pode ser editado.");
+		if (!atributo.equals("nome") && !atributo.equals("telefone") && !atributo.equals("email"))
+			throw new IllegalArgumentException("atributo nao existe.");
+
+	}
+
+	/**
+	 * Remove um fornecedor passado por parametro.
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	public void removeFornecedor(String nome) {
+		try {
+			this.nomeInvalido(nome);
+			this.fornecedorInexistente(nome);
+
+			this.fornecedores.remove(nome);
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na remocao do fornecedor: " + iae.getMessage());
+		}
+
 	}
 
 	// PRODUTOS
@@ -237,32 +393,47 @@ public class ControllerSaga {
 	 * @param nomeProduto
 	 * @param descricao
 	 * @param preco
-	 * @return se foi ou nao possivel adicionar o produto;
+	 * @return
 	 */
-	public String adicionarProduto(String fornecedor, String nomeProduto, String descricao, String preco) {
-		this.parametroInvalido(fornecedor);
+	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, float preco) {
+		try {
+			this.nomeFornecedorInvalido(fornecedor);
+			this.fornecedorInexistente(fornecedor); // ERROR
 
-		if (validaFornecedor(fornecedor))
-			return this.fornecedores.get(fornecedor).cadastrarProduto(nomeProduto, descricao, preco);
-
-		return "Fornecedor nao cadastrado!";
+			this.fornecedores.get(fornecedor).adicionaProduto(nomeProduto, descricao, preco);
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: " + iae.getMessage());
+		}
 	}
 
 	/**
-	 * Metodo que retorna um produto pelo seu nome.
+	 * Verifica se o nome do fornecedor eh invalido.
+	 * 
+	 * @param nome
+	 */
+	private void nomeFornecedorInvalido(String fornecedor) {
+		if (fornecedor.trim().isEmpty() || fornecedor == null)
+			throw new IllegalArgumentException("fornecedor nao pode ser vazio ou nulo.");
+	}
+
+	/**
+	 * Retorna um produto passado por parametro.
 	 * 
 	 * @param fornecedor
 	 * @param nomeProduto
 	 * @param descricao
-	 * @return se o produto existe ou nao;
+	 * @return
 	 */
-	public String retornaProduto(String fornecedor, String nomeProduto, String descricao) {
-		this.parametroInvalido(fornecedor);
+	public String exibeProduto(String nomeProduto, String descricao, String fornecedor) {
+		try {
+			this.nomeFornecedorInvalido(fornecedor);
+			this.fornecedorInexistente(fornecedor);
 
-		if (validaFornecedor(fornecedor))
-			return this.fornecedores.get(fornecedor).retornaProduto(nomeProduto, descricao);
+			return this.fornecedores.get(fornecedor).exibeProduto(nomeProduto, descricao);
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na exibicao de produto: " + iae.getMessage());
+		}
 
-		return "Fornecedor nao cadastrado!";
 	}
 
 	/**
@@ -272,15 +443,19 @@ public class ControllerSaga {
 	 * @param nomeProduto
 	 * @param descricao
 	 * @param preco
-	 * @return se o preco foi ou nao editado;
+	 * @return 
 	 */
-	public String editarPreco(String fornecedor, String nomeProduto, String descricao, String preco) {
-		this.parametroInvalido(fornecedor);
-
-		if (validaFornecedor(fornecedor))
-			return this.fornecedores.get(fornecedor).editarPreco(nomeProduto, descricao, preco);
-
-		return "Fornecedor nao cadastrado!";
+	public void editaPreco(String nomeProduto, String descricao, String fornecedor, double preco) {
+		try {
+			this.nomeFornecedorInvalido(fornecedor);
+			this.fornecedorInexistente(fornecedor);;
+			
+			this.fornecedores.get(fornecedor).editaPreco(nomeProduto, descricao, preco);
+			
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na edicao do produto: " + iae.getMessage());
+		}
+		
 	}
 
 	/**
@@ -288,27 +463,24 @@ public class ControllerSaga {
 	 * 
 	 * @return
 	 */
-	public String listarProdutos() {
-		List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>(fornecedores.values());
-		Collections.sort(listaFornecedor);
+	public String exibeProdutos() {
+		try {
+			List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>(fornecedores.values());
+			Collections.sort(listaFornecedor);
 
-		return this.listaDeProdutos(listaFornecedor);
+			return this.listaDeProdutos(listaFornecedor);
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("" + iae.getMessage());
+		}
 	}
 
 	/**
-	 * Metodo retorna todos os produtos de um fornecedor passado por parametro.
+	 * Cria uma String com todos os produtos de todos os fornecedores.
 	 * 
-	 * @param fornecedor
-	 * @return os produtos ou informando que nao existe nenhum cadastrado;
+	 * @param listaFornecedor
+	 * @return
 	 */
-	public String listarProdutosDeUmFornecedor(String fornecedor) {
-		if (this.fornecedores.get(fornecedor).listarProdutos().equals(""))
-			return "Nenhum produto cadastrado!";
-
-		String lista = this.fornecedores.get(fornecedor).listarProdutos();
-		return lista.substring(0, lista.length() - 3);
-	}
-
 	private String listaDeProdutos(List<Fornecedor> listaFornecedor) {
 		String produtos = "";
 
@@ -319,15 +491,54 @@ public class ControllerSaga {
 		return produtos.substring(0, produtos.length() - 3);
 	}
 
-	// METODOS PRIVADOS
+	/**
+	 * Metodo retorna todos os produtos de um fornecedor passado por parametro.
+	 * 
+	 * @param fornecedor
+	 * @return os produtos ou informando que nao existe nenhum cadastrado;
+	 */
+	public String exibeProdutosFornecedor(String fornecedor) {
+		try {
+			this.nomeFornecedorInvalido(fornecedor);
+			this.fornecedorInexistente(fornecedor);
+			this.produtos(fornecedor);
 
-	private void parametroInvalido(String valor) {
-		if (valor == null)
-			throw new NullPointerException("Por favor digite novamente, o parametro informado foi nulo.");
+			String lista = this.fornecedores.get(fornecedor).listarProdutos();
+			return lista.substring(0, lista.length() - 3);
 
-		if (valor.equals(""))
-			throw new IllegalArgumentException("Por favor digite novamente, o parametro informado foi vazio.");
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na exibicao dos produtos do fornecedor: " + iae.getMessage());
+		}
 
+	}
+
+	/**
+	 * Verifica se nenhum produto esta cadastrado.
+	 * 
+	 * @param fornecedor
+	 */
+	private void produtos(String fornecedor) {
+		if (this.fornecedores.get(fornecedor).listarProdutos().equals(""))
+			throw new IllegalArgumentException("nenhum produto cadastrado.");
+	}
+
+	/**
+	 * Remove um produto de um fornecedor passado por parametro.
+	 * 
+	 * @param nome
+	 * @param descricao
+	 * @param fornecedor
+	 */
+	public void removeProduto(String nome, String descricao, String fornecedor) {
+		try {
+			this.nomeFornecedorInvalido(fornecedor);
+//			this.fornecedorInexistente(nome);
+			
+			this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
+
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro na remocao de produto: " + iae.getMessage());
+		}
 	}
 
 }

@@ -7,7 +7,7 @@ fornecedor4=adicionaFornecedor nome="Seu Olavo" email="olavo@gmail.com" telefone
 
 expectError "Erro no cadastro do fornecedor: nome nao pode ser vazio ou nulo." adicionaFornecedor nome="" email="marcos@gmail.com" telefone="83 99151-3570"
 expectError "Erro no cadastro do fornecedor: email nao pode ser vazio ou nulo." adicionaFornecedor nome="Anel Universitario" email="" telefone="83 99298-3231"
-expectError "Erro no cadastro de fornecedor: fornecedor ja existe." adicionaFornecedor nome="Marcos" email="marcos_ufcg@gmail.com" telefone="83 99211-3570"
+expectError "Erro no cadastro do fornecedor: fornecedor ja existe." adicionaFornecedor nome="Marcos" email="marcos_ufcg@gmail.com" telefone="83 99211-3570"
 
 ## Exibindo fornecedores ##
 
