@@ -2,7 +2,7 @@ package lab2;
 
 /**
  * 
- * Representação de uma cantina de uma universidade onde o estudante come e
+ * Representaco de uma cantina de uma universidade onde o estudante come e
  * possui uma conta que acumula seus debitos e realiza pagamentos.
  * 
  * @author Wallyngson Guedes
@@ -15,24 +15,17 @@ public class ContaCantina {
 	private int contaPagar;
 	private int itensConsumidos;
 	private int valorTotal;
+	private String[] detalhes = new String[5];
 
-	/**
-	 * Este Construtor constroi o nome da cantina onde o aluno comeu.
-	 * 
-	 * @param nomeCantina = Nome da Cantina em formato de String.
-	 */
 	public ContaCantina(String nomeCantina) {
 		this.nomeCantina = nomeCantina;
 	}
 
 	/**
-	 * Este método recebe a quantidade de itens e o preço do lanche que o aluno
-	 * comeu e as atribui a seus devidos atributos.
+	 * Cadastra o lanches que o aluno consumiu, aumentando o valor da sua conta.
 	 * 
-	 * @param qtdItens      = Quantidade de itens que o aluno consumiu, em formato
-	 *                      inteiro.
-	 * @param valorCentavos = Preço em centavos que o aluno consuiu, em formato
-	 *                      inteiro.
+	 * @param qtdItens
+	 * @param valorCentavos
 	 */
 	public void cadastraLanche(int qtdItens, int valorCentavos) {
 		this.valorTotal += valorCentavos;
@@ -41,34 +34,8 @@ public class ContaCantina {
 	}
 
 	/**
-	 * Método responsavel por realizar a subtração do valor que o aluno deve a
-	 * cantina.
+	 * Cadastra o lanche e os seus detalhes.
 	 * 
-	 * @param valorCentavos = Valor que o aluno está pagando a cantina em centavos.
-	 */
-	public void pagaConta(int valorCentavos) {
-		this.contaPagar -= valorCentavos;
-
-	}
-
-	public int getFaltaPagar() {
-		return this.contaPagar;
-	}
-
-	/**
-	 * Método ToString() que retorna uma representação textual desejada.
-	 */
-	@Override
-	public String toString() {
-		return this.nomeCantina + " " + this.itensConsumidos + " " + this.valorTotal;
-	}
-
-//	BÔNUS (Ainda falta terminar!!!)
-	
-	private String[] detalhes = new String[5];
-	
-	/**
-	 * MÉTODO PARA CADASTRAR OS DETALH
 	 * @param qtdItens
 	 * @param valorCentavos
 	 * @param detalhes
@@ -77,41 +44,69 @@ public class ContaCantina {
 		this.valorTotal += valorCentavos;
 		this.contaPagar += valorCentavos;
 		this.itensConsumidos += qtdItens;
+	
 		adicionarDetalhe(detalhes);
 	}
 
 	/**
-	 * LISTA AS STRINGS
-	 * @return
+	 * Paga a conta do aluno.
+	 * 
+	 * @param valorCentavos
 	 */
-	public String listarDetalhes() {
-		String saida = "";
-		
-		for (String string : detalhes) {
-			
-			if(string != null) {
-				saida += string + System.lineSeparator();
-			} 
-
-		}
-		saida = saida.substring(0, saida.length() - 1);
-		return saida;
-		
-		
+	public void pagaConta(int valorCentavos) {
+		this.contaPagar -= valorCentavos;
 	}
 
 	/**
-	 * SHIFT
+	 * Valor total da conta que aluno nao pagou.
+	 * 
+	 * @return
+	 */
+	public int getFaltaPagar() {
+		return this.contaPagar;
+	}
+
+	@Override
+	public String toString() {
+		return this.nomeCantina + " " + this.itensConsumidos + " " + this.valorTotal;
+	}
+	
+	/**
+	 * Lista todos os detalhes dos lanches.
+	 * 
+	 * @return
+	 */
+	public String listarDetalhes() {
+		return this.detalhes();
+	}
+	
+	/**
+	 * Cria a String com todos os detalhes listados.
+	 * 
+	 * @return
+	 */
+	private String detalhes() {
+		String saida = "";
+		
+		for (String string : detalhes) {
+			if(string != null) {
+				saida += string + System.lineSeparator();
+			} 
+		}
+		return saida.substring(0, saida.length() - 1);
+	}
+
+	/**
+	 * Adiciona o detalhe na ultima posicao, fazendo um "shift" nos detalhes anteriores.
+	 * 
 	 * @param detalhe
 	 */
 	private void adicionarDetalhe(String detalhe) {
-		
 		for (int i = 1; i < detalhes.length; i++) {
 			detalhes[i - 1] = detalhes[i];
 		}
 		
 		detalhes[4] = detalhe;
-		
 		}
 		
 		

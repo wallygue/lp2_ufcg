@@ -2,8 +2,7 @@ package lab2;
 
 /**
  * 
- * Representação de uma conta de lab que um estudante usa, podendo armazenar
- * dados, excluir e verificar se já alcançou e ultrapassou o limite de cota.
+ * Classe que representa a conta de um laboratorio do aluno.
  * 
  * @author Wallyngson Guedes
  * 
@@ -15,89 +14,85 @@ public class ContaLaboratorio {
 	private int cota;
 	private int espacoConsumido;
 
-	/**
-	 * Este contrutor recebe o nome do laboratório onde o estudante está logando e
-	 * possui uma quantidade padrão da sua cota de arquivos armazenados.
-	 * 
-	 * @param laboratorio = nome do laboratório.
-	 */
 	public ContaLaboratorio(String laboratorio) {
 		this.nomeLaboratorio = laboratorio;
 		this.cota = 2000;
 	}
 
-	/**
-	 * Este contrutor recebe o nome do laboratório onde o estudante está logando e
-	 * também recebe e constroi uma quantidade de cota que o aluno possui para
-	 * armazenar seus aquivos.
-	 * 
-	 * @param laboratorio = nome do laboratório.
-	 * @param cota        = quantidade de espaço que o aluno possui para armazenar.
-	 */
 	public ContaLaboratorio(String laboratorio, int cota) {
 		this.nomeLaboratorio = laboratorio;
 		this.cota = cota;
 	}
 
 	/**
-	 * Este método verifica se o espaço que o aluno consumiu ultrapassou o limite de
-	 * armazenamento, e faz isso atravez de uma comparação retornando true ou false.
+	 * Informa se o aluno atingiu sua cota no laboratorio.
 	 * 
-	 * @return true se o aluno ultrapassou a cota, false se o aluno ainda está
-	 *         dentro do limite.
+	 * @return
 	 */
 	public boolean atingiuCota() {
-		if (this.espacoConsumido >= this.cota) {
+		if (this.espacoConsumido >= this.cota)
 			return true;
-		} else {
-			return false;
-		}
-	}
 
-	/**
-	 * Soma a quantidade de cota que o aluno está armazenando ao total de espaço que
-	 * ele possui.
-	 * 
-	 * @param cotaOcupada = quantidade de dados que o aluno deseja armazenar.
-	 */
-	public void consomeEspaco(int cotaOcupada) {
-		this.espacoConsumido += cotaOcupada;
-	}
-
-	/**
-	 * Libera a quantidade de espaço que o aluno deseja elimitar dos seus dados.
-	 * 
-	 * @param i = recebe uma quantidade de dados a ser excluida do espaço total
-	 *          consumida.
-	 */
-	public void liberaEspaco(int i) {
-		this.espacoConsumido -= i;
-
-	}
-
-	/**
-	 * Representação textual, nos mostra o nome do laboratório, o espaço consumido e
-	 * a quantidade de cota.
-	 */
-	@Override
-	public String toString() {
-		return this.nomeLaboratorio + " " + espacoConsumido + "/" + this.cota;
-	}
-
-	public int getCota() {
-		return cota;
+		return false;
 	}
 
 	public void setCota(int cota) {
 		this.cota = cota;
 	}
-
+	
 	public String getNomeLaboratorio() {
 		return nomeLaboratorio;
+	}
+
+	public int getCota() {
+		return this.cota;
 	}
 
 	public void setNomeLaboratorio(String nomeLaboratorio) {
 		this.nomeLaboratorio = nomeLaboratorio;
 	}
 
+	/**
+	 * Consome uma quantidade de espaco no laboratorio.
+	 * 
+	 * @param cotaOcupada
+	 */
+	public void consomeEspaco(int cotaOcupada) {
+		this.espacoConsumido += cotaOcupada;
+	}
+
+	/**
+	 * Libera uma quantidade de espaco no laboratorio.
+	 * 
+	 * @param espaco
+	 */
+	public void liberaEspaco(int espaco) {
+		this.espacoConsumido -= espaco;
+	}
+
+	@Override
+	public String toString() {
+		return this.nomeLaboratorio + " " + espacoConsumido + "/" + this.cota;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cota;
+		result = prime * result + espacoConsumido;
+		result = prime * result + ((nomeLaboratorio == null) ? 0 : nomeLaboratorio.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ContaLaboratorio) {
+			ContaLaboratorio novoLab = (ContaLaboratorio) obj;
+			return this.getNomeLaboratorio().equals(novoLab.getNomeLaboratorio());
+		}
+		return false;
+	}
+
+	
 }

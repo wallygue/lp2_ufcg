@@ -2,9 +2,9 @@ package lab2;
 
 /**
  * 
- * Representação de um sistema que gerencia a vida do aluno, organizando algumas
- * de suas atividades básicas na àrea acadêmica, tais como laboratórios,
- * cantinas e sua saúde.
+ * Representaco de um sistema que gerencia a vida do aluno, organizando algumas
+ * de suas atividades basicas na area academica, tais como laboratorios,
+ * cantinas e sua saude.
  *
  * 
  * @author Wallyngson Guedes
