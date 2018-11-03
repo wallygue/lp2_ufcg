@@ -1,7 +1,7 @@
-**Laboratório 4** - *Controle de Alunos*
+**Laboratório 5** - *SAGA | Sistema para Auto-Gestão de comércio de Alimentos*
 
-- Terceiro exércicio prático da discíplina.
+- Quarto exércicio prático da discíplina.
 
-Controle de alunos, sistema que controla todos os grupos de estudos dos alunos, cadastro de alunos em grupos, cadastra alunos e suas respontas em quadros. Uso de JUnit5, HashMap e HashSet, além de do Padrão de Projeto Facade e Controller.
+Controle de auto-gestão, teremos clientes e fornecedores, cadastro de produtos, fornecedores e clientes. Introducao ao uso do Acceptance Test (EasyAccept) e o uso de Comparable e Comparator, como forma de ordenacao.
 
 **John 3.16 - God blessed us!**
