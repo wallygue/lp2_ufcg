@@ -37,7 +37,7 @@ expect "Dona Alba - varandas_bar@gmail.com - 83 99945-1294 | Helhao - quiosque@g
 
 ## Removendo cadastro ##
 
-expectError "Erro na remocao do fornecedor: nome do fornecedor nao pode ser vazio." removeFornecedor nome=""
+expectError "Erro na remocao do fornecedor: nome nao pode ser vazio ou nulo." removeFornecedor nome=""
 
 removeFornecedor nome=${fornecedor2}
 expectError "Erro na exibicao do fornecedor: fornecedor nao existe." exibeFornecedor nome=${fornecedor2}

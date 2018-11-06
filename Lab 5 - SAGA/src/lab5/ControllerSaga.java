@@ -546,7 +546,7 @@ public class ControllerSaga {
 	public void removeProduto(String nome, String descricao, String fornecedor) {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
-//			this.fornecedorInexistente(nome);
+			this.fornecedorInexistente(fornecedor);
 			
 			this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 
@@ -554,5 +554,49 @@ public class ControllerSaga {
 			throw new IllegalArgumentException("Erro na remocao de produto: " + iae.getMessage());
 		}
 	}
+	
+	// COMBO
+	
+	public void adicionaCombo(String fornecedor, String nomeCombo, String descricao, Double fator, String combo) {
+		try {
+			this.nomeFornecedorInvalido(fornecedor);
+			this.fornecedorInexistente(fornecedor);
+			
+			this.fornecedores.get(fornecedor).adicionaCombo(nomeCombo, descricao, fator, combo);
+			
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: " + iae.getMessage());
+		}
+		
+		
+	}
+	
+	// COMPRAS
+	
+	public void adicionaCompra(String cpf, String fornecedor, String data, String nomeProduto, String descricao) {
+		try {
+			this.validadoresCompra(cpf, fornecedor);
+			this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProduto,descricao);
+			
+			
+		} catch (IllegalArgumentException iae) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: " + iae.getMessage());
+		}
+		
+	}
+	
+	/**
+	 * Valida os fornecedores e os clientes;
+	 * 
+	 * @param cpf
+	 * @param fornecedor
+	 */
+	public void validadoresCompra(String cpf, String fornecedor) {
+		this.cpfInvalido(cpf);
+		this.clienteInexistente(cpf);
+		this.nomeFornecedorInvalido(fornecedor);
+		this.fornecedorInexistente(fornecedor);
+	}
+
 
 }

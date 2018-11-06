@@ -8,7 +8,7 @@ public class Facade {
 
 	public static void main(String[] args) {
 		args = new String[] { "lab5.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
-				"acceptance_test/use_case_3.txt" };
+				"acceptance_test/use_case_3.txt", "acceptance_test/use_case_4.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -55,14 +55,14 @@ public class Facade {
 	}
 
 	public void editaFornecedor(String nome, String atributo, String novoValor) {
-		this.editaFornecedor(nome, atributo, novoValor);
+		this.controller.editaFornecedor(nome, atributo, novoValor);
 	}
 
 	public void removeFornecedor(String nome) {
-		this.removeFornecedor(nome);
+		this.controller.removeFornecedor(nome);
 	}
 
-	// PRODUTO
+	// PRODUTO SIMPLES
 
 	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, Double preco) {
 		this.controller.adicionaProduto(fornecedor, nomeProduto, descricao, preco);
@@ -86,5 +86,17 @@ public class Facade {
 
 	public void removeProduto(String nome, String descricao, String fornecedor) {
 		this.controller.removeProduto(nome, descricao, fornecedor);
+	}
+	
+	// COMBO
+	
+	public void adicionaCombo(String fornecedor, String nomeCombo, String descricao, Double fator, String combo) {
+		this.controller.adicionaCombo(fornecedor, nomeCombo, descricao, fator, combo);
+	}
+	
+	// COMPRAS
+	
+	public void adicionaCompra(String cpf, String fornecedor, String data, String nomeProduto, String descricao) {
+		this.controller.adicionaCompra(cpf, fornecedor, data, nomeProduto, descricao);
 	}
 }

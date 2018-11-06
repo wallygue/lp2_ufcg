@@ -1,5 +1,7 @@
 package lab5;
 
+import java.text.DecimalFormat;
+
 /**
  * Classe representa produtos que serao vendidos por nossa lanchonete.
  * 
@@ -50,6 +52,10 @@ public class Produto implements Comparable<Produto> {
 	public String getDesricao() {
 		return this.descricao;
 	}
+	
+	public Double getPreco() {
+		return this.preco;
+	}
 
 	/**
 	 * Junta os nomes para ordenar os produtos por ordem alfabetica.
@@ -76,7 +82,9 @@ public class Produto implements Comparable<Produto> {
 	
 	@Override
 	public String toString() {
-		return this.nome + " - " + this.descricao + " - R$" + String.valueOf(this.preco).replace(".", ",") + "0";
+		DecimalFormat df = new DecimalFormat("0.00");
+		
+		return this.nome + " - " + this.descricao + " - R$" + df.format(this.preco);
 	}
 
 	@Override
