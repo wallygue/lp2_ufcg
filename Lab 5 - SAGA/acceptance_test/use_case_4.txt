@@ -19,7 +19,7 @@ expectError "Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo." 
 expectError "Erro no cadastro de combo: nome nao pode ser vazio ou nulo." adicionaCombo fornecedor="Seu Olavo" nome="" descricao="Tapioca de frango com cafe" fator=0.25 produtos="Tapioca de frango - Tapioca de frango e manteiga, Cafe - Cafe pequeno"
 expectError "Erro no cadastro de combo: descricao nao pode ser vazia ou nula." adicionaCombo fornecedor="Seu Olavo" nome="Tapioca com cafe" descricao="" fator=0.25 produtos="Tapioca de frango - Tapioca de frango e manteiga, Cafe - Cafe pequeno"
 expectError "Erro no cadastro de combo: fator invalido." adicionaCombo fornecedor="Seu Olavo" nome="Tapioca com cafe" descricao="Tapioca de frango com cafe" fator=-0.5 produtos="Tapioca de frango - Tapioca de frango e manteiga, Cafe - Cafe pequeno"
-expectError "Erro no cadastro de combo: fator invalido." adicionaCombo fornecedor="Seu Olavo" nome="Tapioca com cafe" descricao="Tapioca de frango com cafe" fator=1.2 produtos="Tapioca de frango - Tapioca de frango e manteiga, Cafe - Cafe pequeno"
+expectError "Erro no cadastro de combo: fator invalido." adicionaCombo fornecedor="Seu Olavo" nome="Tapioca com cafe" descricao="Tapioca de frango com cafe" fator=-1.2 produtos="Tapioca de frango - Tapioca de frango e manteiga, Cafe - Cafe pequeno"
 expectError "Erro no cadastro de combo: combo deve ter produtos." adicionaCombo fornecedor="Seu Olavo" nome="Tapioca com cafe" descricao="Tapioca de frango com cafe" fator=1 produtos=""
 expectError "Erro no cadastro de combo: produto nao existe." adicionaCombo fornecedor="Seu Olavo" nome="Tapioca com cafe" descricao="Tapioca de frango com cafe" fator=0.3 produtos="Tapioca de frango - Tapioca de frango e manteiga, Cafe - Cafe pequeno"
 

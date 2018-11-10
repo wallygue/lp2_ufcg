@@ -15,9 +15,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private String nome;
 	private String email;
 	private String telefone;
-	private List<Produto> produtos;
-	private List<Combo> combos;
-	private List<String> todosProdutos;
+	private List<ProdutoAbstrato> produtos;
 
 	public Fornecedor(String nome, String email, String telefone) {
 		this.parametrosInvalidos(email, telefone);
@@ -26,12 +24,10 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		this.email = email;
 		this.telefone = telefone;
 		this.produtos = new ArrayList<>();
-		this.combos = new ArrayList<>();
-		this.todosProdutos = new ArrayList<>();
 	}
 
 	/**
-	 * Verifica se o email e o telefone sao invalidos.
+	 * Verifica se o email e o telefone do fornecedor sao invalidos.
 	 * 
 	 * @param email
 	 * @param telefone
@@ -43,15 +39,15 @@ public class Fornecedor implements Comparable<Fornecedor> {
 			throw new IllegalArgumentException("telefone nao pode ser vazio ou nulo.");
 	}
 
-	public String getNome() {
+	public String getNomeFornecedor() {
 		return this.nome;
 	}
 
-	public void setEmail(String email) {
+	public void setEmailFornecedor(String email) {
 		this.email = email;
 	}
 
-	public void setTelefone(String telefone) {
+	public void setTelefoneFornecedor(String telefone) {
 		this.telefone = telefone;
 	}
 
@@ -64,14 +60,14 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @return
 	 */
 	public void adicionaProduto(String nomeProduto, String descricao, Double preco) {
-		this.nomeProdutoInvalido(nomeProduto, descricao);
 		this.validaProduto(nomeProduto, descricao);
 
-		this.produtos.add(new Produto(nomeProduto, descricao, preco));
+		this.produtos.add(new ProdutoSimples(nomeProduto, descricao, preco));
 	}
 
 	/**
-	 * Verifica se o nome do produto eh invalido.
+	 * Verifica se o nome ou a descricao do produto passado por parametro eh
+	 * invalido.
 	 * 
 	 * @param nome
 	 */
@@ -90,8 +86,8 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @return
 	 */
 	private void validaProduto(String nomeProduto, String descricao) {
-		for (Produto produto : produtos) {
-			if (produto != null && produto.equals(new Produto(nomeProduto, descricao)))
+		for (ProdutoAbstrato produto : produtos) {
+			if (produto.equals(new ProdutoSimples(nomeProduto, descricao)))
 				throw new IllegalArgumentException("produto ja existe.");
 		}
 	}
@@ -116,9 +112,9 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param descricao
 	 * @return
 	 */
-	private Produto exibe(String nomeProduto, String descricao) {
-		for (Produto produto : produtos) {
-			if (produto != null && produto.equals(new Produto(nomeProduto, descricao)))
+	private ProdutoAbstrato exibe(String nomeProduto, String descricao) {
+		for (ProdutoAbstrato produto : produtos) {
+			if (produto.equals(new ProdutoSimples(nomeProduto, descricao)))
 				return produto;
 		}
 		throw new IllegalArgumentException("produto nao existe.");
@@ -132,13 +128,13 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param preco
 	 * @return
 	 */
+
 	public void editaPreco(String nomeProduto, String descricao, Double preco) {
 		this.nomeProdutoInvalido(nomeProduto, descricao);
-		if (preco <= 0)
+		if (preco <= 0 || preco == null)
 			throw new IllegalArgumentException("preco invalido.");
 
 		this.exibe(nomeProduto, descricao).setPreco(preco);
-
 	}
 
 	/**
@@ -154,17 +150,17 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	/**
 	 * Percorre a Colecao e retorna todos os produtos em uma representacao textual;
 	 * 
-	 * @param produtos
+	 * @param produtosSimples
 	 * @return
 	 */
-	private String listaDosProdutos(List<Produto> produtos) {
+	private String listaDosProdutos(List<ProdutoAbstrato> produtos) {
 		if (produtos.size() == 0)
 			return "";
 
 		String listaProdutos = "";
 
 		for (int i = 0; i < produtos.size(); i++) {
-			listaProdutos += this.getNome() + " - " + produtos.get(i).toString() + " | ";
+			listaProdutos += this.nome + " - " + produtos.get(i).toString() + " | ";
 		}
 
 		return listaProdutos;
@@ -203,27 +199,26 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 */
 	private int indiceProduto(String nome, String descricao) {
 		for (int i = 0; i < produtos.size(); i++) {
-			if (this.produtos.get(i).equals(new Produto(nome, descricao)))
+			if (this.produtos.get(i).equals(new ProdutoSimples(nome, descricao)))
 				return i;
 		}
 		return -1;
 	}
 
-	public Double retornaPreco(String nome, String descricao) {
-		return this.produtos.get(this.indiceProduto(nome, descricao)).getPreco();
-	}
-
-	/**
-	 * Valida o produto a ser usado, modificado ou excluido;
-	 * 
-	 * @param nome
-	 * @param descricao
-	 */
-	public void validarProduto(String nome, String descricao) {
-		this.nomeProdutoInvalido(nome, descricao);
-		this.produtoInexistente(nome, descricao);
-		;
-	}
+//	public Double retornaPreco(String nome, String descricao) {
+//		return this.produtos.get(this.indiceProduto(nome, descricao)).getPreco();
+//	}
+//
+//	/**
+//	 * Valida o produto a ser usado, modificado ou excluido;
+//	 * 
+//	 * @param nome
+//	 * @param descricao
+//	 */
+//	public void validarProduto(String nome, String descricao) {
+//		this.nomeProdutoInvalido(nome, descricao);
+//		this.produtoInexistente(nome, descricao);
+//	}
 
 	// COMBO
 
@@ -236,47 +231,38 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param combo
 	 */
 	public void adicionaCombo(String nomeCombo, String descricao, Double fator, String combo) {
-		this.comboInvalido(nomeCombo, descricao, fator, combo);
 		this.validaCombo(nomeCombo, descricao);
+		this.comboInvalido(fator, combo);
 		this.verificaProduto(combo);
 
-		this.combos.add(new Combo(nomeCombo, descricao, fator, combo));
-		this.combos.get(indiceCombo(nomeCombo, descricao)).setPreco(this.calculaPrecoCombo(combo, fator)); // adicionando
-																											// preco ao
-																											// combo.
-
+		this.produtos.add(new ProdutoCombo(nomeCombo, descricao, fator, combo));
 	}
 
 	/**
-	 * Verifica se um combo ja existe.
+	 * EU ACHEI QUE ESSE TESTE ESTA ERRADO POIS DEVERIA SER TESTADO NO COMBO NAO NO
+	 * FORNECEDOR. Verifica se o fator do preco informado eh valido.
 	 * 
-	 * @param nomeCombo
-	 * @param descricao
+	 * @param fator
 	 */
-	private void validaCombo(String nomeCombo, String descricao) {
-		for (int i = 0; i < combos.size(); i++) {
-			if (this.combos.get(i) != null && this.combos.get(i).equals(new Combo(nomeCombo, descricao)))
+	private void comboInvalido(Double fator, String combo) {
+		if (fator == null || fator <= 0.0)
+			throw new IllegalArgumentException("fator invalido.");
+		if (combo.trim().isEmpty() || combo == null)
+			throw new IllegalArgumentException("combo deve ter produtos.");
+	}
+
+	/**
+	 * Valida se o produto esta ou nao cadastrado.
+	 * 
+	 * @param nomeProduto
+	 * @param descricao
+	 * @return
+	 */
+	private void validaCombo(String nome, String descricao) {
+		for (ProdutoAbstrato produto : produtos) {
+			if (produto.equals(new ProdutoCombo(nome, descricao)))
 				throw new IllegalArgumentException("combo ja existe.");
 		}
-	}
-	
-	/**
-	 * Verifica se algum dos parametros do combo eh ivalido ou nulo.
-	 * 
-	 * @param nome
-	 * @param descricao
-	 * @param fator
-	 * @param produtos
-	 */
-	private void comboInvalido(String nome, String descricao, Double fator, String produtos) {
-		if (nome.trim().isEmpty() || nome == null)
-			throw new IllegalArgumentException("nome nao pode ser vazio ou nulo.");
-		if (descricao.trim().isEmpty() || descricao == null)
-			throw new IllegalArgumentException("descricao nao pode ser vazia ou nula.");
-		if (produtos.trim().isEmpty() || produtos == null)
-			throw new IllegalArgumentException("combo deve ter produtos.");
-		if (fator <= 0.0 || fator == null)
-			throw new IllegalArgumentException("fator invalido.");
 	}
 
 	/**
@@ -298,66 +284,86 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 */
 	private void validaProduto(String string) {
 		String[] produto = string.split(" - ");
-		this.validarProduto(produto[0], produto[1]);
+		String nome = produto[0];
+		String descricao = produto[1];
+		this.produtoInexistente(nome, descricao);
 
 	}
 
-	/**
-	 * Separa os produtos e calcula o preco geral do combo.
-	 * 
-	 * @param combo
-	 * @param fator
-	 * @return
-	 */
-	private Double calculaPrecoCombo(String combo, Double fator) {
-		String[] produtosCombo = combo.split(", ");
-		Double preco1 = this.retornaPreco(produtosCombo[0]);
-		Double preco2 = this.retornaPreco(produtosCombo[1]);
+	// /**
+//	 * Verifica se um combo ja existe.
+//	 * 
+//	 * @param nomeCombo
+//	 * @param descricao
+//	 */
+//	private void validaCombo(String nomeCombo, String descricao) {
+//		for (int i = 0; i < combos.size(); i++) {
+//			if (this.combos.get(i) != null && this.combos.get(i).equals(new ProdutoCombo(nomeCombo, descricao)))
+//				throw new IllegalArgumentException("combo ja existe.");
+//		}
+//	}
+//
+//	/**
+//	 * Verifica se algum dos parametros do combo eh ivalido ou nulo.
+//	 * 
+//	 * @param nome
+//	 * @param descricao
+//	 * @param fator
+//	 * @param produtos
+//	 */
+//	private void comboInvalido(String nome, String descricao, Double fator, String produtos) {
+//		if (nome.trim().isEmpty() || nome == null)
+//			throw new IllegalArgumentException("nome nao pode ser vazio ou nulo.");
+//		if (descricao.trim().isEmpty() || descricao == null)
+//			throw new IllegalArgumentException("descricao nao pode ser vazia ou nula.");
+//		if (produtos.trim().isEmpty() || produtos == null)
+//			throw new IllegalArgumentException("combo deve ter produtos.");
+//		if (fator <= 0.0 || fator == null)
+//			throw new IllegalArgumentException("fator invalido.");
+//	}
+//
 
-		return (preco1 + preco2) - ((preco1 + preco2) * fator);
-	}
-
-	/**
-	 * Retorna o preco do produto passado por parametros.
-	 * 
-	 * @param produto
-	 * @return
-	 */
-	private Double retornaPreco(String produto) {
-		String[] nomes = produto.split(" - ");
-		return this.produtos.get(this.indiceProduto(nomes[0], nomes[1])).getPreco();
-	}
-
-	public int indiceCombo(String nomeCombo, String descricao) {
-		for (int i = 0; i < combos.size(); i++) {
-			if (combos.get(i) != null && combos.get(i).equals(new Combo(nomeCombo, descricao)))
-				return i;
-		}
-
-		throw new IllegalArgumentException("Combo nao existe.");
-	}
-
-	/**
-	 * Retorna o indice do primeiro produto do combo.
-	 * 
-	 * @param produto
-	 * @return
-	 */
-	private int indiceProduto1(String produto) {
-		String[] produto1 = produto.split(" - ");
-		return this.indiceProduto(produto1[0], produto1[1]);
-	}
-
-	/**
-	 * Retorna o indicie do segundo produto.
-	 * 
-	 * @param produto
-	 * @return
-	 */
-	private int indiceProduto2(String produto) {
-		String[] produto2 = produto.split(" - ");
-		return this.indiceProduto(produto2[0], produto2[1]);
-	}
+//	/**
+//	 * Separa os produtos e calcula o preco geral do combo.
+//	 * 
+//	 * @param combo
+//	 * @param fator
+//	 * @return
+//	 */
+//	private Double calculaPrecoCombo(String combo, Double fator) {
+//		String[] produtosCombo = combo.split(", ");
+//		Double preco1 = this.retornaPreco(produtosCombo[0]);
+//		Double preco2 = this.retornaPreco(produtosCombo[1]);
+//
+//		return (preco1 + preco2) - ((preco1 + preco2) * fator);
+//	}
+//
+//	/**
+//	 * Retorna o preco do produto passado por parametros.
+//	 * 
+//	 * @param produto
+//	 * @return
+//	 */
+//	private Double retornaPreco(String produto) {
+//		String[] nomes = produto.split(" - ");
+//		return this.produtos.get(this.indiceProduto(nomes[0], nomes[1])).getPreco();
+//	}
+//
+//	/**
+//	 * Retorna o indice em que o combo se encontra na colecao dos combos.
+//	 * 
+//	 * @param nomeCombo
+//	 * @param descricao
+//	 * @return
+//	 */
+//	private int indiceCombo(String nomeCombo, String descricao) {
+//		for (int i = 0; i < produtos.size(); i++) {
+//			if (produtos.get(i) != null && combos.get(i).equals(new ProdutoCombo(nomeCombo, descricao)))
+//				return i;
+//		}
+//
+//		throw new IllegalArgumentException("Combo nao existe.");
+//	}
 
 	@Override
 	public String toString() {
@@ -378,7 +384,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	public boolean equals(Object obj) {
 		if (obj instanceof Fornecedor) {
 			Fornecedor novoFornecedor = (Fornecedor) obj;
-			return this.getNome().equals(novoFornecedor.getNome());
+			return this.nome.equals(novoFornecedor.getNomeFornecedor());
 		}
 
 		return false;
@@ -386,7 +392,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	@Override
 	public int compareTo(Fornecedor f2) {
-		return this.getNome().compareTo(f2.getNome());
+		return this.nome.compareTo(f2.getNomeFornecedor());
 	}
 
 }

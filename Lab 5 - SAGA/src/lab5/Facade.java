@@ -94,9 +94,10 @@ public class Facade {
 		this.controller.adicionaCombo(fornecedor, nomeCombo, descricao, fator, combo);
 	}
 	
-	// COMPRAS
+//	// COMPRAS
+//	
+//	public void adicionaCompra(String cpf, String fornecedor, String data, String nomeProduto, String descricao) {
+//		this.controller.adicionaCompra(cpf, fornecedor, data, nomeProduto, descricao);
+//	}
 	
-	public void adicionaCompra(String cpf, String fornecedor, String data, String nomeProduto, String descricao) {
-		this.controller.adicionaCompra(cpf, fornecedor, data, nomeProduto, descricao);
-	}
 }

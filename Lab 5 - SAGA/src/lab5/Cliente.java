@@ -1,9 +1,9 @@
 package lab5;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
 
 /**
  * Esta classe representa um cliente.
@@ -14,9 +14,9 @@ import java.util.Map;
 public class Cliente implements Comparable<Cliente> {
 
 	private String cpf, nome, email, localizacao;
-	private List<Conta> contas;
-	private Map<String, Debito> debitos;
-	private Fornecedor fornecedor;
+//	private List<Conta> contas;
+//	private Map<String, Debito> debitos;
+//	private Fornecedor fornecedor;
 	
 	public Cliente(String cpf, String nome, String email, String localizacao) {
 		this.parametrosValidos( nome, email, localizacao);
@@ -25,8 +25,8 @@ public class Cliente implements Comparable<Cliente> {
 		this.nome = nome;
 		this.email = email;
 		this.localizacao = localizacao;
-		this.contas = new ArrayList<>();
-		this.debitos = new HashMap<>();
+//		this.contas = new ArrayList<>();
+//		this.debitos = new HashMap<>();
 	}
 	
 	/**
@@ -65,18 +65,18 @@ public class Cliente implements Comparable<Cliente> {
 		return this.nome;
 	}
 
-	// CONTAS
-	
-	public void adicionaCompra(String fornecedor, String data, String nomeProduto, String descricao) {
-		this.validaProduto(nomeProduto, descricao);
-		
-		this.contas.add(new Conta(fornecedor, data, nomeProduto, descricao));
-		this.debitos.put(fornecedor, new Debito(this.fornecedor.retornaPreco(nomeProduto, descricao)));
-	}
-	
-	private void validaProduto(String nomeProduto, String descricao) {
-		this.fornecedor.validarProduto(nomeProduto, descricao);
-	}
+//	// CONTAS
+//	
+//	public void adicionaCompra(String fornecedor, String data, String nomeProduto, String descricao) {
+//		this.validaProduto(nomeProduto, descricao);
+//		
+//		this.contas.add(new Conta(fornecedor, data, nomeProduto, descricao));
+//		this.debitos.put(fornecedor, new Debito(this.fornecedor.retornaPreco(nomeProduto, descricao)));
+//	}
+//	
+//	private void validaProduto(String nomeProduto, String descricao) {
+//		this.fornecedor.validarProduto(nomeProduto, descricao);
+//	}
 	
 	@Override
 	public String toString() {

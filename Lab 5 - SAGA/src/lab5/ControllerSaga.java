@@ -224,7 +224,7 @@ public class ControllerSaga {
 
 			this.fornecedores.put(nome, new Fornecedor(nome, email, telefone));
 			return nome;
-			
+
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro no cadastro do fornecedor: " + iae.getMessage());
 		}
@@ -346,11 +346,11 @@ public class ControllerSaga {
 		this.nomeFornecedor(nome, atributo, novoValor);
 
 		if (atributo.equals("email"))
-			this.fornecedores.get(nome).setEmail(novoValor);
+			this.fornecedores.get(nome).setEmailFornecedor(novoValor);
 		if (atributo.equals("telefone"))
-			this.fornecedores.get(nome).setTelefone(novoValor);
+			this.fornecedores.get(nome).setTelefoneFornecedor(novoValor);
 	}
-	
+
 	/**
 	 * Verifica se os valores do fornecedor sao invalidos.
 	 * 
@@ -362,7 +362,7 @@ public class ControllerSaga {
 			throw new IllegalArgumentException("atributo nao pode ser vazio ou nulo.");
 		if (novoValor.trim().isEmpty() || novoValor == null)
 			throw new IllegalArgumentException("novo valor nao pode ser vazio ou nulo.");
-			
+
 	}
 
 	/**
@@ -398,7 +398,7 @@ public class ControllerSaga {
 
 	}
 
-	// PRODUTOS
+	// PRODUTOS SIMPLES
 
 	/**
 	 * Adiciona produtos ao fornecedor.
@@ -412,9 +412,10 @@ public class ControllerSaga {
 	public void adicionaProduto(String fornecedor, String nomeProduto, String descricao, Double preco) {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
-			this.fornecedorInexistente(fornecedor); // ERROR
+			this.fornecedorInexistente(fornecedor);
 
 			this.fornecedores.get(fornecedor).adicionaProduto(nomeProduto, descricao, preco);
+
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: " + iae.getMessage());
 		}
@@ -457,19 +458,20 @@ public class ControllerSaga {
 	 * @param nomeProduto
 	 * @param descricao
 	 * @param preco
-	 * @return 
+	 * @return
 	 */
 	public void editaPreco(String nomeProduto, String descricao, String fornecedor, Double preco) {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
-			this.fornecedorInexistente(fornecedor);;
-			
+			this.fornecedorInexistente(fornecedor);
+			;
+
 			this.fornecedores.get(fornecedor).editaPreco(nomeProduto, descricao, preco);
-			
+
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro na edicao de produto: " + iae.getMessage());
 		}
-		
+
 	}
 
 	/**
@@ -547,56 +549,27 @@ public class ControllerSaga {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
 			this.fornecedorInexistente(fornecedor);
-			
+
 			this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
 
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro na remocao de produto: " + iae.getMessage());
 		}
 	}
-	
+
 	// COMBO
-	
-	public void adicionaCombo(String fornecedor, String nomeCombo, String descricao, Double fator, String combo) {
+
+	public void adicionaCombo(String fornecedor, String nome, String descricao, Double fator, String combo) {
 		try {
 			this.nomeFornecedorInvalido(fornecedor);
 			this.fornecedorInexistente(fornecedor);
-			
-			this.fornecedores.get(fornecedor).adicionaCombo(nomeCombo, descricao, fator, combo);
-			
+
+			this.fornecedores.get(fornecedor).adicionaCombo(nome, descricao, fator, combo);
+
 		} catch (IllegalArgumentException iae) {
 			throw new IllegalArgumentException("Erro no cadastro de combo: " + iae.getMessage());
 		}
-		
-		
-	}
-	
-	// COMPRAS
-	
-	public void adicionaCompra(String cpf, String fornecedor, String data, String nomeProduto, String descricao) {
-		try {
-			this.validadoresCompra(cpf, fornecedor);
-			this.clientes.get(cpf).adicionaCompra(fornecedor, data, nomeProduto,descricao);
-			
-			
-		} catch (IllegalArgumentException iae) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: " + iae.getMessage());
-		}
-		
-	}
-	
-	/**
-	 * Valida os fornecedores e os clientes;
-	 * 
-	 * @param cpf
-	 * @param fornecedor
-	 */
-	public void validadoresCompra(String cpf, String fornecedor) {
-		this.cpfInvalido(cpf);
-		this.clienteInexistente(cpf);
-		this.nomeFornecedorInvalido(fornecedor);
-		this.fornecedorInexistente(fornecedor);
-	}
 
+	}
 
 }
