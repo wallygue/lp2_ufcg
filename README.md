@@ -17,5 +17,3 @@ Language used: **Java** (https://www.oracle.com/technetwork/java/javase/download
 Unit tests: **JUnit 5** (https://junit.org/junit5/);
 
 Acceptance tests: **EasyAccept** (http://easyaccept.sourceforge.net/);
-
-**John 3.16 - God blessed us!**
