@@ -43,7 +43,8 @@ public class Agenda {
 	private void posicaoInvalida(int posicao) {
 		if (posicao > this.contatos.length || posicao < 1)
 			throw new IndexOutOfBoundsException("Cadastro nao realizado!\n"
-					+ "A posicao informada excede o limite de posicoes.\n" + "Informe uma posicao entre 1 e 100.");
+					+ "A posicao informada excede o limite de posicoes.\n" 
+					+ "Informe uma posicao entre 1 e 100.");
 	}
 
 	/**

@@ -11,8 +11,7 @@ package lab2;
 public class ContaLaboratorio {
 
 	private String nomeLaboratorio;
-	private int cota;
-	private int espacoConsumido;
+	private int cota, espacoConsumido;
 
 	public ContaLaboratorio(String laboratorio) {
 		this.nomeLaboratorio = laboratorio;
@@ -94,5 +93,4 @@ public class ContaLaboratorio {
 		return false;
 	}
 
-	
 }

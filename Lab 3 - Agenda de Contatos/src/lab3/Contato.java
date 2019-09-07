@@ -9,12 +9,8 @@ package lab3;
 public class Contato {
 	private String[] telefones = new String[3];
 
-	private String nome;
-	private String sobrenome;
-	private String telefone;
-	private String numeroTelefone;
-	private int ddd;
-	private int codigoPais;
+	private String nome, sobrenome, telefone, numeroTelefone;
+	private int ddd, codigoPais;
 	private int nivelAmizade = 0;
 
 	public Contato(String nome, String sobrenome, String telefone) {

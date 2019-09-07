@@ -7,7 +7,7 @@ package lab3;
  */
 public class Main {
 	public static void main(String[] args) {
-		InterfaceUsuario inter = new InterfaceUsuario();
-		inter.start();
+		InterfaceUsuario facade = new InterfaceUsuario();
+		facade.start();
 	}
 }

@@ -13,9 +13,7 @@ import java.util.Arrays;
 public class ContaCantina {
 
 	private String nomeCantina;
-	private int contaPagar;
-	private int itensConsumidos;
-	private int valorTotal;
+	private int contaPagar, itensConsumidos, valorTotal;
 	private String[] detalhes = new String[5];
 
 	public ContaCantina(String nomeCantina) {
